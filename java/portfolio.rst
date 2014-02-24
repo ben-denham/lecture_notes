@@ -115,6 +115,42 @@ Download Netbeans:
 ------------------
 http://www.oracle.com/technetwork/java/javase/downloads/jdk-7-netbeans-download-432126.html
 
+Diagram
+-------
+
+Tester
++----------+
+|          |
++----------+
+|C+main(..)|
++----------+
+
+Employee
++----------+
+|          |
++----------+
+|+pay()    |
+|+work()   |
+|-eat()    |
+|+workPay()|
++----------+
+
+Staff
++----------+
+|          |
++----------+
+|+work()   |
+|+jobWork()|
++----------+
+
+
+Manager
++----------+
+|          |
++----------+
+|          |
++----------+
+
 ::
 
   class Tester {
@@ -209,3 +245,144 @@ Even if a child class is empty, it can still be used in the same way as it's par
 
 A private member cannot be accessed from outside of the same class (not even in child
 classes).
+
+25/02/2014
+==========
+
+.. image:: images/week2_1png
+
+::
+
+  class Employee {
+
+      public int ecode;
+      public String fname;
+      public String lname;
+      public double salary;
+
+      public Employee(int ecode, String fname, String lname, double salary) {
+	  System.out.println("Employee .. constructor");
+	  this.ecode = ecode;
+	  this.fname = fname;
+	  this.lname = lname;
+	  this.salary = salary;
+      }
+
+      public void pay() {
+	  System.out.println("Employee .. pay");
+      }
+
+      public String work() {
+	  System.out.println("Employee .. work");
+	  return ecode + ": " + fname + " " + lname + "\nSalary: $" + salary;
+      }
+
+  }
+
+  class Staff extends Employee {
+
+      public Staff(int ecode, String fname, String lname, double salary) {
+	  super(ecode, fname, lname, salary);
+	  System.out.println("Staff .. constructor");
+      }
+
+      // Note how this method overrides work() in Employee for Staff objects.
+      public String work() {
+	  System.out.println("Staff .. work");
+	  return ecode + ": " + lname + ", " + fname + "\nSalary: $" + salary;
+      }
+
+  }
+
+  class Manager extends Employee {
+
+      public Manager(int ecode, String fname, String lname, double salary) {
+	  super(ecode, fname, lname, salary);
+	  System.out.println("Manager .. constructor");
+      }
+
+  }
+
+  class Tester {
+      public static void main(String[] args) {
+	  // Prints "Employee .. constructor" and "Staff .. constructor", as the constructor
+	  // is fired.
+	  Employee emp = new Staff(1001, "Ben", "Denham", 120000);
+	  testEmp(emp);
+
+	  // Prints "Employee .. constructor" and "Manager .. constructor", as the constructor
+	  // is fired.
+	  Employee mgr = new Manager(1001, "Ben", "Denham", 120000);
+	  testEmp(mgr);
+      }
+
+      public static void testEmp(Employee emp) {
+	  // Prints "{Class} .. work" as work() is fired. Also returns the employee
+	  // description, which we store in our local String variable: fullName.
+	  String description = emp.work();
+	  // Prints the description that we stored in the last line.
+	  System.out.println(description);
+      }
+  }
+
+
+In Java, attributes are declared in a class with the following syntax::
+
+  [public|private] type attributeName;
+
+Constructors
+------------
+
+A special method that is automatically run when an instance of a class is created.
+
+Constructors are useful for initializing variables, and for initializing other required
+context (e.g. database connections).
+
+The constructor must be public, must have no return value, and must have the same name as
+the class.
+
+Note how we pass arguments to the constructor when initializing an object with ``new`` (see
+``Tester.main()``).
+
+Method arguments and return values
+----------------------------------
+
+Note how Employee.work() returns a ``String`` instead of ``void``, by declaring the return
+type and by using the ``return`` keyword.
+
+We must return a value that matches the specified return data type (String).
+
+Note how in the constructor of Employee, we accepted arguments by specifying the data type
+and variable name of each argument.
+
+Note: Because these local variables (fname, lname) conflict with the instance variables of
+the same names, the local variables take preference when being referenced, and the instance
+variables must be referenced with ``this``. When there is no conflict, instance variables
+can be referenced without ``this``.
+
+When an object reference is created of a reference type (E.g. String or another class), the
+default value is null. (Primitive types have a default value, such as 0 for number types.)
+
+Local and Instance variables
+----------------------------
+
+When local variables conflict with instance variables of the same names, the local
+variables take preference when being referenced, and the instance variables must be
+referenced with ``this``. When there is no conflict, instance variables can be referenced
+without ``this``.
+
+* A local variable is allocated when a method runs, and becomes innaccessible when the method
+  finishes.
+* An instance variable is allocated when an object is created, and becomes innaccessible when
+  the object becomes innaccessible.
+* A static variable is allocated when the class is loaded into memory, and becomes
+  inaccessible when the class becomes innaccessible (usually when the program finishes).
+
+Overriding
+----------
+
+When we declare a method in a class that has already been declared in a parent class with
+the same signature (method name and arguments types and order), then that method is said to
+**override** the method in the parent class.
+
+Whenever the method is called for an object of the child type (even when the object reference is of parent type), the overriding definition is used instead of the original one.
