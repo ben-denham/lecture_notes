@@ -1,6 +1,25 @@
 Programming precepts - 19/02/2014
 =================================
 
+Solving simultaneous equations
+------------------------------
+
+Turn one equation into a variable equally an expression, which can the be
+substituted into the other equation to provide a linear equation:
+
+2x + 3y = 5
+x = (5 - 3y)/2
+
+5x - 4y = -22
+5(5 - 3y)/2 - 4y = -22
+25 - 15y - 8y = -44
+-23y = -69
+y = 3
+
+Or,  **subtract** or **add** the second equation from the first?
+It doesn't matter which, the key is that we are adding/subtracting the same
+thing from both sides of the equation.
+
 Workbook 1
 ----------
 
@@ -100,7 +119,7 @@ Workbook 2
   1) b^2 - 3b = b(b - 3)
   2) 108(a^6)(d^8)
   3) abc + ad
-  4) a^3 + ab - (a^2)b - b^2
+  4) a^3 - (a^2)b + ab - b^2
   5)
 
      a) x(y - z)
@@ -108,7 +127,7 @@ Workbook 2
      c) y(a + 1)
      d) bcde(a + 1)
 
-  6) 4b - 2a
+  6) -2a + 4b
 
 3A)
 
