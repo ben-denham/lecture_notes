@@ -386,3 +386,123 @@ the same signature (method name and arguments types and order), then that method
 **override** the method in the parent class.
 
 Whenever the method is called for an object of the child type (even when the object reference is of parent type), the overriding definition is used instead of the original one.
+
+27/02/2014
+==========
+
+``javap class_name`` inspects a class.
+
+Assignment
+----------
+
+1. UI
+2. Vector
+3. Hashtable
+
+Java UI
+--------
+
+Earliest form: AWT. AWT had classes for ``Frame``, ``Textfield``,`` Button``,
+etc. Problem: the screens were not as good as VB user interfaces.
+Namespace: ``java.awt``
+
+Swing extends AWT (through inheritance). Swing classes always start with "J" (e.g.
+``JFrame``, ``JButton``). Namespace: ``javax.swing``
+
+To create our own form, we create our own class that inherits from ``JFrame``. Our
+custom form will then contain other controls like buttons and textfields.
+
+Using ``import java.awt.*`` will import all class, abstract classes, interfaces, etc.
+inside ``java.awt``, but not any sub-namespaces.
+
+Action Listening
+----------------
+
+We must have a class that implements ``ActionListener`` by including the method
+``public void actionPerformed(ActionEvent ae)``. This class can be our Frame.
+
+We must also add the instance of our ``ActionListener`` as a listener for a control. For
+example, if I want the current frame I am constructing to listen to btnOkay, I use:
+``btnOkay.addActionListener(this); // this is my frame that implements ActionListener``.
+
+::
+  import java.awt.*;
+  import javax.swing.*;
+  import java.awt.event.*;
+
+  class MainFrame extends JFrame implements ActionListener {
+
+      JTextField txtCustomerName;
+
+      public MainFrame() {
+
+	  setTitle("My First UI");
+	  // Don't use any automatic layout. If we used a layout, we wouldn't need to
+	  // specify all of bounds.
+	  setLayout(null);
+	  // Use setBounds(posX, posY, width, height) to position the Frame.
+	  setBounds(10, 10, 400, 600);
+
+	  // Create our form controls.
+	  JLabel lblCustomerName = new JLabel("Customer Name");
+	  txtCustomerName = new JTextField();
+	  JButton btnOkay = new JButton("Okay");
+	  JButton btnGet = new JButton("Get");
+
+	  // Use setBounds(posX, posY, width, height) to position the controls.
+	  lblCustomerName.setBounds(20, 20, 100, 20);
+	  txtCustomerName.setBounds(120, 20, 200, 20);
+	  btnOkay.setBounds(20, 60, 80, 20);
+	  btnGet.setBounds(120, 60, 80, 20);
+
+	  // Subscribe our Frame to the actions of the button.
+	  btnOkay.addActionListener(this);
+	  btnGet.addActionListener(this);
+
+	  // We add the items to the container instead of this object in order to avoid
+	  // conflicts with the JFrame superclass?
+	  Container con = getContentPane();
+	  con.add(lblCustomerName);
+	  con.add(txtCustomerName);
+	  con.add(btnOkay);
+	  con.add(btnGet);
+
+	  // Show the frame.
+	  setVisible(true);
+      }
+
+      // Implements the ActionListener interface. Handles actions this Frame is listening to.
+      public void actionPerformed(ActionEvent ae) {
+	  String msg = ae.getActionCommand();
+	  txtCustomerName.setText(msg);
+      }
+
+  }
+
+  class Tester {
+
+      public static void main(String[] args) {
+	  // Create a new frame object.
+	  JFrame f = new MainFrame();
+      }
+
+  }
+
+Basic ideas of Swing Frame
+--------------------------
+
+* Extend ``javax.swing.JFrame``, and implement ``java.awt.event.ActionListener``
+* Use instance variables for controls that need to be shared between methods.
+* In the constructor:
+
+  * Configure the Frame (Set title, bounds, no layout)
+  * Create controls (in local variables, and setting instances of instance variables)
+  * Configure controls (Sset bounds, etc.)
+  * Set up Frame to listen to controls (``control.addActionListener(this);``)
+  * Add the controls to the Frame's container.
+  * Set the Frame to be visible
+
+* In actionPerformed(ActionEvent ae):
+
+  * Handle control actions (events) based on the contents of ae.
+  * ``java.awt.event.ActionEvent`` stores information about an action that fired.
