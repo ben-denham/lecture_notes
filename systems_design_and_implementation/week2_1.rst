@@ -154,6 +154,7 @@ Series of stages:
 
 Must recognise:
 
+* Some people skip stages
 * Speed of progression through stages varies
 * Relapses occur (going back to a previous stage)
 * Not everyone reaches hope

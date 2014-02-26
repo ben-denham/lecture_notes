@@ -20,6 +20,8 @@ Or,  **subtract** or **add** the second equation from the first?
 It doesn't matter which, the key is that we are adding/subtracting the same
 thing from both sides of the equation.
 
+**Square roots**: could be + or -.
+
 Workbook 1
 ----------
 
@@ -42,11 +44,10 @@ Workbook 1
 3A)
 
   1) 100
-  2) 1/8
+  2) 1/16 X
   3) 1
-  4) 1
-  5) 3
-  6) 5
+  4) +-3 X
+  5) +-5 X
 
 4A)
 
@@ -58,11 +59,11 @@ Workbook 1
 
 5A)
 
-  1) -6
+  1) -10 X
 
 6A)
 
-  1) 0.05
+  1) 0.05% X
   2) 1.242 * 10^4
 
 1B)
@@ -86,7 +87,7 @@ Workbook 1
   1) 10000
   2) 1
   3) 1/27
-  4) 4
+  4) +-4 X
 
 4B)
 
@@ -98,11 +99,11 @@ Workbook 1
 
 5B)
 
-  1) 16.75
+  1) -14.5 X
 
 6B)
 
-  1) 0.002
+  1) 0.002% X
   2) 3.6014 * 10^4
 
 Workbook 2
