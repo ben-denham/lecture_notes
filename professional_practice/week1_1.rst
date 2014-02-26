@@ -14,8 +14,11 @@ Answers to the history of computing quiz:
 6. Every 2 years, the number of transistors you can fit on the same sized chip
    doubles.
 
-Technology is changing society.
+Technology is changing society (sometimes in unexpected ways).
 
-People create/change technology (to solve problems).
+People create/change technology (to solve problems/meet needs/ achieve
+ambitions).
+
+^ Feedback loop
 
 **Technology impacts society; society impacts technology**
