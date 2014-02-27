@@ -52,3 +52,21 @@ We should aim to minimise harm.
 It's the ends that matter, not the means.
 
 Ethics is about trying to create happiness.
+
+Homework
+--------
+
+1. Kant meant that all moral decisions should be based on universal moral laws.
+   A universal moral law is one that applies to all rational beings, at all
+   points in time (past, present, and future), and when applied universally in
+   this way, does not logically contradict itself (E.g. if everyone could
+   break promises, then there would be no point in anyone making a promise).
+2. When 3 men are starving on a boat, and one is sick, if the other two men
+   kill and eat the 3rd man, then he is being used as a means to the end of
+   their own survival.
+3. Act Utilitarianism does not evaluate the morality of the means to achieve a
+   certain end, only the net happiness that is achieved by the end.
+4. Kantianism determines whether a certain action is moral based on whether
+   there is "good will" behind it; Utilitarianism determines whether a certain
+   action is moral based on whether the action results in a net increase in
+   "happiness".
