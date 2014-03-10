@@ -25,7 +25,7 @@ Standard deviation
 
   s = sqrt((sum(x[i] - x̄) ^ 2) / (n - 1)) (Not in the test)
 
-  σ = sqrt((sum(x[i] - x̄) ^ 2) / n) (Not in the test)
+  σ = sqrt((sum(x[i] - μ) ^ 2) / n) (Not in the test)
 
 Sample statistics can help us estimate a value for the population.
 

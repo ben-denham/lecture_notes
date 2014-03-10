@@ -1,0 +1,26 @@
+@startuml
+
+interface ActionListener
+
+class ProductFrame {
+  +()
+}
+
+class ProductFrameListener {
+  + void actionPerformed(ActionEvent ae)
+}
+
+class Tester {
+  + {static} void main
+}
+
+JFrame <|-- Frame
+ProductFrame <|-- JFrame
+ProductFrameListener <|.. ActionListener
+ProductFrame ".." .. ProductFrameListener
+ProductFrame ".." .. JLabel
+ProductFrame ".." .. JTextField
+ProductFrame ".." .. JButton
+Tester .. ProductFrame
+
+@enduml

@@ -596,5 +596,20 @@ Collections Framework
 Vector
 ``````
 
+Can have a generic type, but doens't have to.
+
 Hashtable
 `````````
+
+06/03/2014
+==========
+
+Don't classify a class (e.g. ``+String type``), use subtyping.
+
+
+::
+
+  Object a = null;
+  a.toString();
+
+The above code causes a null pointer exception.
