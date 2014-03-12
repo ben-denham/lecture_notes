@@ -78,7 +78,7 @@ CRUD = Create, Read, Update, Delete
 
 Understand the interaction
 
-* Login
+* Login - fingerprint scanner / access code fallback
 * Open the new order form
   * Fill in details about order
     * Date

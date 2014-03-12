@@ -596,7 +596,7 @@ Collections Framework
 Vector
 ``````
 
-Can have a generic type, but doens't have to.
+Can have a generic type, but doens't have to: ``Vector<E>``
 
 Hashtable
 `````````
@@ -613,3 +613,374 @@ Don't classify a class (e.g. ``+String type``), use subtyping.
   a.toString();
 
 The above code causes a null pointer exception.
+
+Try to avoid using ``instanceof`` and typecasting.
+
+11/03/2014
+==========
+
+Vectors are serial, because their items must be referred to by an index, not by
+a key.
+
+We do not need to state the size of a vector when we create it; it is dynamic.
+
+Vectors can store any type of object at the same time, by being a vector of
+objects.
+
+When working with an object reference of parent type, we must typecast to a
+child type in order to access the public members of the child type::
+
+  import java.util.*;
+
+  class Tester {
+
+    public static void main(String[] args) {
+	Vector v = new Vector();
+	v.add("A");
+	v.add("B");
+	v.add("C");
+
+	int si = v.size();
+	for (int i=0; i < si; i++) {
+	    String cc = (String) v.elementAt(i);
+	    System.out.println(cc);
+	}
+    }
+
+  }
+
+When do not need to explicitly typecast a child type to a parent type object
+reference: the conversion is implicit::
+
+  Object myObject = "Hello World";
+
+Try not to use ``instanceof`` and typecasting at all costs, by using common
+parent class (normal or abstract) or interface ojbect references::
+
+  import java.util.*;
+
+  abstract class Person {
+
+      abstract public void prt();
+
+  }
+
+  class Customer extends Person {
+
+      String id;
+
+      public Customer(String id) {
+	  this.id = "C" + id;
+      }
+
+      public void prt() {
+	  System.out.println("Customer: " + id);
+      }
+
+  }
+
+  class Employee extends Person {
+
+      String id;
+
+      public Employee(String id) {
+	  this.id = "E" + id;
+      }
+
+      public void prt() {
+	  System.out.println("Employee: " + id);
+      }
+
+  }
+
+  class Tester {
+
+      public static void main(String[] args) {
+	  Vector v = new Vector();
+	  //Vector<Person> v = new Vector<Person>();
+
+	  Employee e = new Employee("1001");
+	  v.add(e);
+	  e = new Employee("1002");
+	  v.add(e);
+
+	  Customer c = new Customer("1001");
+	  v.add(c);
+
+	  System.out.println("Number of elements: " + v.size());
+
+	  int si = v.size();
+	  for (int i = 0; i < si; i++) {
+	      /*
+	      Object obj = v.elementAt(i);
+	      if (obj instanceof Employee) {
+		  e = (Employee) obj;
+		  e.prt();
+	      }
+	      else if (obj instanceof Customer) {
+		  c = (Customer) obj;
+		  c.prt();
+	      }
+	      */
+
+	      Person p = (Person) v.elementAt(i);
+
+	      //Person p = v.elementAt(i);
+
+	      p.prt();
+	  } 
+      }
+
+  }
+
+Hashtable
+---------
+
+Advantages:
+
+* Can be used as a serial device (like a vector).
+* Supports random access (by key, not index).
+
+``Hashtable.put(key, value)``
+  Stores a new value.
+
+``Hashtable.get(key)``
+  Gets a value stored for a given key.
+
+``Hashtable.keys()`` and ``Hastable.elements()`` return Enumerations of the keys
+and elements respectively. There is no guarantee as to the order of the
+objects in the enumeration.
+
+We can go through an enumeration using ``hasMoreElements()`` and
+``nextElement()``::
+
+  Enumeration en = h.elements();
+  while (en.hasMoreElements()) {
+    c = (Customer) en.nextElement();
+    c.prt();
+  }
+
+Hashtables can take generics: ``HashTable<Key, Value>``.
+
+Full example::
+
+  import java.util.*;
+
+  abstract class Person {
+
+      abstract public void prt();
+
+  }
+
+  class Customer extends Person {
+
+      String id;
+      String name;
+
+      public Customer(String id, String name) {
+	  this.id = "C" + id;
+	  this.name = name;
+      }
+
+      public void prt() {
+	  System.out.println("Customer: " + id + " - " + name);
+      }
+
+  }
+
+  class Employee extends Person {
+
+      String id;
+
+      public Employee(String id) {
+	  this.id = "E" + id;
+      }
+
+      public void prt() {
+	  System.out.println("Employee: " + id);
+      }
+
+  }
+
+  class Tester {
+
+      public static void main(String[] args) {
+	  String[] ccode = {"1001", "1002", "1003"};
+	  String[] cname = {"Sam", "Mona", "Mark"};
+
+	  Customer c = null;
+	  Hashtable h = new Hashtable();
+	  // Hashtable<String, Person> h = new Hashtable<String, Person>();
+
+	  // Store customers in the Hashtable.
+	  for (int i=0; i < ccode.length; i++) {
+	      c = new Customer(ccode[i], cname[i]);
+	      h.put(ccode[i], c);
+	  }
+
+	  // Retrieve customers from the Hashtable.
+	  for (int i=0; i < ccode.length; i++) {
+	      c = (Customer) h.get(ccode[i]);
+	      c.prt();
+	  }
+
+	  System.out.println("-----------------------------");
+
+	  Enumeration en = h.keys();
+	  String code;
+	  while (en.hasMoreElements()) {
+	      code = (String) en.nextElement();
+	      c = (Customer) h.get(code);
+	      c.prt();
+	  }
+
+	  System.out.println("-----------------------------");
+
+	  en = h.elements();
+	  while (en.hasMoreElements()) {
+	      c = (Customer) en.nextElement();
+	      c.prt();
+	  }
+      }
+
+  }
+
+13/03/2014
+==========
+
+.. image:: images/week4_2.png
+
+
+Employee (ecode, fname, lname)
+Customer (ccode, name, ecode)
+
+Note: In UML 2, an object can be represented like a class, but with a name like:
+``objectName:ClassName`` that is underlined (object name is optional, but the
+colon must be used).
+
+Collection is slower than Enumeration, but safer when multithreading.
+
+Example::
+
+  import java.util.*;
+
+  class Customer {
+
+      String ccode;
+      String name;
+      Employee employee;
+
+      public Customer(String ccode, String name, Employee employee) {
+	  this.ccode = ccode;
+	  this.name = name;
+	  this.employee = employee;
+      }
+
+      public void print() {
+	  System.out.println("Customer: " + ccode + " - " + name);
+      }
+
+  }
+
+  class Employee {
+
+      String ecode;
+      String firstName;
+      String lastName;
+      Hashtable<String, Customer> customers;
+      //Vector<Customer> customers;
+
+      public Employee(String ecode, String firstName, String lastName) {
+	  this.ecode = ecode;
+	  this.firstName = firstName;
+	  this.lastName = lastName;
+	  customers = new Hashtable<String, Customer>();
+	  //customers = new Vector<Customer>();
+      }
+
+      public void createCustomer(String ccode, String name) {
+	  customers.put(ccode, new Customer(ccode, name, this));
+	  //customers.add(new Customer(ccode, name, this));
+      }
+
+      public void listCustomers() {
+	  /*
+	  // Collection is slower than Enumeration, but safer when multithreading.
+	  for (Customer customer : customers.values()) {
+	      customer.print();
+	  }
+	  */
+	  Customer customer;
+	  Enumeration<Customer> customersEnum = customers.elements();
+	  while (customersEnum.hasMoreElements()) {
+	      customer = customersEnum.nextElement();
+	      customer.print();
+	  }
+	  /*
+	  // Alternative approach, so that we have access to each key.
+	  String ccode;
+	  Enumeration<String> ccodes = customers.keys();
+	  while (ccodes.hasMoreElements()) {
+	      ccode = ccodes.nextElement();
+	      customer = customers.get(ccode);
+	      customer.print();
+	  }
+	  */
+	  /*
+	  // For a Vector.
+	  int size = customers.size();
+	  for (int i = 0; i < size; i++) {
+	      customer = customers[i];
+	      customer.print();
+	  }
+	   */
+      }
+
+      public void print() {
+	  System.out.println("Employee: " + ecode + " - " + firstName + " " + lastName);
+      }
+
+  }
+
+  class Customers extends Hashtable<String, Customer> {
+
+  }
+
+  class Tester {
+
+      public static void main(String[] args) {
+	  // Use of arrays.
+	  String[] ecode = {"E1001", "E1002", "E1003"};
+	  String[] firstName = {"John", "Eric", "Michael"};
+	  String[] lastName = {"Cleese", "Idle", "Palin"};
+
+	  Employee[] employees = new Employee[3];
+	  for(int i = 0; i < employees.length; i++) {
+	      employees[i] = new Employee(ecode[i], firstName[i], lastName[i]);
+	  }
+
+	  for(int i = 0; i < employees.length; i++) {
+	      employees[i].print();
+	  }
+
+	  // Demonstrate customers in employee.
+	  Employee e = new Employee("E1001", "Ben", "Denham");
+	  e.print();
+	  e.createCustomer("C1001", "Datacom");
+	  e.createCustomer("C1002", "Telecom");
+	  e.listCustomers();
+
+	  // Demonstrate extended Hashtable with set generics.
+	  Customers test = new Customers();
+	  test.put("abc", new Customer("123", "a", e));
+	  Customer c = test.get("abc");
+	  c.print();
+      }
+
+  }
+
+You should extend swing controls. E.g. ``JTextField <|-- CustomerField``.
+
+This means that you can reuse specific components.
+
+Homework: Look up other collections in collections framework.

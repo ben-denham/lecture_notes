@@ -1,4 +1,8 @@
+Professional Practice - 11/03/2014
+==================================
+
 Video
+-----
 
 1. Industrialized countries: UK, Holland, U.S., Canada, Australia, Italy. People
    offer to export waste overseas. Lack of money to recycle properly.
@@ -21,6 +25,7 @@ Video
      cause paralysis, coma and death.
    * Nickel is carcinogenic in large doses.
    * http://electronics.howstuffworks.com/everyday-tech/e-waste1.htm
+   * Mercury: mad as a hatter.
 
 4. Basel Convention - http://www.basel.int/
 5. Hong Kong, Latin America, Caribbean (http://www.theguardian.com/global-development/2013/dec/14/toxic-ewaste-illegal-dumping-developing-countries)
@@ -40,4 +45,23 @@ The Ministry defines a sustainable industry as an industry that:
 Figure 1: Excessive growth comes at the cost of sustainability.
 
 Figure 2: Sustainability requires considering social, environmental, and
-enconomic factors.
+economic factors. There is a balance between these 3 factors.
+
+Sustainability
+--------------
+
+Meet today's need without negatively impacting on tomorrow's needs.
+
+Encompasses:
+
+* Environment
+* Society
+* Economy
+
+Four imperatives for IT professionals:
+
+* Need systems for calculating environmental costs.
+* Design corporate sustainability reporting systems.
+* Find ways to collect and present product sustaniability information to public.
+* Develop professional standards for data processing and storage that minimise
+  environmental consequences.

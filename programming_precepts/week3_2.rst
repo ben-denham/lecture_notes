@@ -50,3 +50,5 @@ P(x < 1250) = 0.5 + P(z < 2.5)
 z = (X - μ) / σ
 # Where x is the value we want to determine a probability related to.
 # We can then look up z on a *Normal Probability* table.
+
+**Z score is how many std deviations away from the mean a given value is.**
