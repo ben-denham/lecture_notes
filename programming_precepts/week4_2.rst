@@ -52,5 +52,6 @@ Practice Test notes.
     add binary of 11 and two's complement of 4
     Drop the most significant bit / carry bit (left-most bit)
 18. random sample's are best.
-19. 101101 = 1.01101 * 2 ^ 6
+19. 101101 = 1.01101 * 2 ^ 5
 20. sample size = 20; mean = 148; std dev = 5...
+    150
