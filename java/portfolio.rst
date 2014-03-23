@@ -984,3 +984,87 @@ You should extend swing controls. E.g. ``JTextField <|-- CustomerField``.
 This means that you can reuse specific components.
 
 Homework: Look up other collections in collections framework.
+
+18/03/2014
+==========
+
+.. image:: images/week5_2.png
+
+Early binding vs. late binding
+------------------------------
+
+Early binding: Add relationship on construction. (must-have relationship)
+
+Late binding: Add relationship at later point. (may-have relationship)
+
+3 HAS-A relationships:
+
+1. MUST-HAVE
+2. MAY-HAVE
+3. USES
+
+When implementing a design:
+
+1. Implement IS-A relationships.
+2. Implement HAS-A relationships (except USES).
+3. Attributes.
+
+   * Getters/Setters.
+
+4. 
+
+Use super() to call the parent constructor. super() must be the first line in
+the constructor.
+
+Instead of public attributes, use getters and setters::
+
+  private double salary;
+
+  public double getSalary() {
+    return salary;
+  }
+  public void setSalary(double salary) {
+    this.salary = salary;
+  }
+
+Don't show getters and setters in UML diagrams.
+
+Example::
+
+  import java.util.*;
+
+  abstract class Employee {
+
+      private Customers customers;
+
+      public Customers getCustomers() {
+	  return customers;
+      }
+
+      public void setCustomers(Customers customers) {
+	  this.customers = customers;
+      }
+
+  }
+
+  class SalesPerson extends Employee {
+
+      public SalesPerson(Customers customers) {
+	  setCustomers(customers);
+      }
+
+  }
+  class OtherStaff extends Employee {}
+
+  class Customers extends Hashtable {}
+  abstract class Customer {}
+  class CashCustomer extends Customer {}
+  class CreditCustomer extends Customer {}
+
+  class Tester {
+
+      public static void main(String[] args) {
+
+      }
+
+  }
