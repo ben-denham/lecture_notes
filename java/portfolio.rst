@@ -1068,3 +1068,651 @@ Example::
       }
 
   }
+
+25/03/2014
+==========
+
+.. image:: images/week6_1.png
+
+Bouncing ball example::
+
+  import java.awt.*;
+  import javax.swing.*;
+
+  class Board extends JPanel {
+
+      private JFrame frame;
+
+      public Board() {
+	  frame = new JFrame();
+	  frame.setBounds(10, 10, 600, 600);
+	  Container container = frame.getContentPane();
+	  container.add(this);
+	  // Must be done before getting the graphics, otherwise getGraphics()
+	  // will return null.
+	  frame.setVisible(true);
+	  setBackground(Color.white);
+
+	  Graphics g = getGraphics();
+	  Ball ball = new Ball(g, 50);
+	  ball.setLocation(50, 80);
+	  ball.setVelocity(1, 2);
+	  while (true) {
+	      ball.move();
+	      ball.draw();
+	  }
+      }
+
+  }
+
+  class Ball {
+
+      private Graphics g;
+      private int diameter;
+      private int x;
+      private int y;
+      private int xVelocity = 1;
+      private int yVelocity = 1;
+
+      public Ball(Graphics g, int diameter) {
+	  this.g = g;
+	  this.diameter = diameter;
+      }
+
+      public void setLocation(int x, int y) {
+	  this.x = x;
+	  this.y = y;
+      }
+
+      public void setVelocity(int xVelocity, int yVelocity) {
+	  this.xVelocity = xVelocity;
+	  this.yVelocity = yVelocity;
+      }
+
+      public void move() {
+	  x += xVelocity;
+	  y += yVelocity;
+
+	  if (x > 500 || x < 0) {
+	      xVelocity = -xVelocity;
+	  }
+
+	  if (y > 500 || y < 0) {
+	      yVelocity = -yVelocity;
+	  }
+      }
+
+      public void draw() {
+	  g.setColor(Color.red);
+	  g.fillOval(x, y, diameter, diameter);
+	  try {
+	      Thread.sleep(20);
+	  }
+	  catch (InterruptedException ex) {}
+	  g.setColor(Color.white);
+	  g.fillOval(x, y, diameter, diameter);
+      }
+
+  }
+
+  class Tester {
+
+      public static void main(String[] args) {
+	  new Board();
+      }
+
+  }
+
+27/03/2014
+==========
+
+.. image:: images/week6_2.png
+
+MouseListener works in exactly the same way as ActionListener.
+
+Threads
+-------
+
+2 ways to do multithreading:
+
+* Class extends Thread::
+
+  class Ball extends Thread {
+     public void run() {
+       while(true) {
+         // Do stuff
+       }
+     }
+  }
+
+  class Tester {
+    public static void main() {
+      Ball ball = new Ball();
+      ball.start();
+    }
+  }
+
+* Class implements Runnable, and we create a new Thread with the Runnable as an
+  argument::
+
+    class Ball implements Runnable {
+       public void run() {
+	 while(true) {
+	   // Do stuff
+	 }
+       }
+    }
+
+    class Tester {
+      public static void main() {
+	Ball ball = new Ball();
+	Thread thread = new Thread(ball);
+	thread.start();
+      }
+    }
+
+We run start() instead of run(), because start() includes the setup for a
+thread, and includes running run().
+
+If a thread is constructed with a Runnable, that is run instead of the thread's
+run() method.
+
+Multiple balls example::
+
+  import java.awt.*;
+  import java.awt.event.*;
+  import javax.swing.*;
+
+  class Board extends JPanel implements MouseListener {
+
+      private JFrame frame;
+
+      public Board() {
+	  addMouseListener(this);
+	  frame = new JFrame();
+	  frame.setBounds(10, 10, 600, 600);
+	  Container container = frame.getContentPane();
+	  container.add(this);
+	  // Must be done before getting the graphics, otherwise getGraphics()
+	  // will return null.
+	  frame.setVisible(true);
+	  setBackground(Color.white);
+
+	  Graphics g = getGraphics();
+	  Ball ball;
+	  Thread ballThread;
+	  for (int i = 0; i < 10; i++) {
+	      ball = new Ball(g, i * 10);
+	      ball.setLocation((int)Math.random() * 100, (int)Math.random() * 100);
+	      ball.setVelocity(i, 10 - i);
+	      // If Ball extended Thread, we could use:
+	      //ball.start();
+	      ballThread = new Thread(ball);
+	      ballThread.start();
+	  }
+      }
+
+      public void mouseClicked(MouseEvent me) {
+	  System.out.println(String.format("%s,%s", me.getX(), me.getY()));
+      }
+
+      public void mousePressed(MouseEvent me) { }
+      public void mouseReleased(MouseEvent me) { }
+      public void mouseEntered(MouseEvent me) { }
+      public void mouseExited(MouseEvent me) { }
+
+  }
+
+  class Ball implements Runnable {
+
+      private Graphics g;
+      private int diameter;
+      private int x;
+      private int y;
+      private int xVelocity = 1;
+      private int yVelocity = 1;
+
+      public Ball(Graphics g, int diameter) {
+	  this.g = g;
+	  this.diameter = diameter;
+      }
+
+      public void setLocation(int x, int y) {
+	  this.x = x;
+	  this.y = y;
+      }
+
+      public void setVelocity(int xVelocity, int yVelocity) {
+	  this.xVelocity = xVelocity;
+	  this.yVelocity = yVelocity;
+      }
+
+      public void move() {
+	  x += xVelocity;
+	  y += yVelocity;
+
+	  if (x > 500 || x < 0) {
+	      xVelocity = -xVelocity;
+	  }
+
+	  if (y > 500 || y < 0) {
+	      yVelocity = -yVelocity;
+	  }
+      }
+
+      public void draw() {
+	  g.setColor(Color.blue);
+	  g.fillOval(x, y, diameter, diameter);
+	  try {
+	      Thread.sleep(20);
+	  }
+	  catch (InterruptedException ex) {}
+	  g.setColor(Color.white);
+	  g.fillOval(x, y, diameter, diameter);
+      }
+
+      public void run() {
+	  while (true) {
+	      move();
+	      draw();
+	  }
+      }
+
+  }
+
+01/04/2014
+==========
+
+Thread is basically::
+
+  Runnable
+    +run()
+
+  Thread implements Runnable
+    -r:Runnable
+    +()
+    +(r:Runnable)
+      my.r = r
+    +start()
+      if (r == null)
+        run()
+      else
+        r.run()
+    +run()
+
+So we can either extend thread::
+
+  Ball extends Thread
+    +run()
+      ...
+    +(s)main(args:String[])
+      b:Ball = new Ball()
+      b.start()
+
+or implement runnable::
+
+  Ball implements Runnable
+    +run()
+      ...
+    +(s)main(args:String[])
+      b:Ball = new Ball()
+      t:Thread = new Thread(b)
+      t.start()
+
+A static method can be called on a class or an instance.
+
+To kill a "ball":
+
+* Stop thread
+* Paint white
+* Remove listener
+
+Example::
+
+  import java.awt.*;
+  import java.awt.event.*;
+  import javax.swing.*;
+
+  class Board extends JPanel implements MouseListener {
+
+      private JFrame frame;
+
+      public Board() {
+	  addMouseListener(this);
+	  frame = new JFrame();
+	  frame.setBounds(10, 10, 600, 600);
+	  Container container = frame.getContentPane();
+	  container.add(this);
+	  // Must be done before getting the graphics, otherwise getGraphics()
+	  // will return null.
+	  frame.setVisible(true);
+	  setBackground(Color.white);
+
+	  Ball ball;
+	  Thread ballThread;
+	  for (int i = 0; i < 10; i++) {
+	      ball = new Ball(this, 30 + i * 10);
+	      ball.setLocation((int)Math.random() * 100, (int)Math.random() * 100);
+	      ball.setVelocity(i, 10 - i);
+
+	      // If Ball extended Thread, we could use:
+	      //ball.start();
+	      ballThread = new Thread(ball);
+	      ballThread.start();
+	  }
+      }
+
+      public void mouseClicked(MouseEvent me) {
+	  System.out.println(String.format("%s,%s", me.getX(), me.getY()));
+      }
+
+      public void mousePressed(MouseEvent me) { }
+      public void mouseReleased(MouseEvent me) { }
+      public void mouseEntered(MouseEvent me) { }
+      public void mouseExited(MouseEvent me) { }
+
+  }
+
+  class Ball implements Runnable, MouseListener {
+
+      private static int idCounter;
+      private int id;
+      private boolean alive = true;
+      private JPanel panel;
+      private Graphics g;
+      private int diameter;
+      private int x;
+      private int y;
+      private int xVelocity = 1;
+      private int yVelocity = 1;
+
+      public Ball(JPanel panel, int diameter) {
+	  id = idCounter++;
+	  this.panel = panel;
+	  panel.addMouseListener(this);
+	  g = panel.getGraphics();
+	  this.diameter = diameter;
+      }
+
+      public void setLocation(int x, int y) {
+	  this.x = x;
+	  this.y = y;
+      }
+
+      public void setVelocity(int xVelocity, int yVelocity) {
+	  this.xVelocity = xVelocity;
+	  this.yVelocity = yVelocity;
+      }
+
+      public void move() {
+	  x += xVelocity;
+	  y += yVelocity;
+
+	  if (x > 500 || x < 0) {
+	      xVelocity = -xVelocity;
+	  }
+
+	  if (y > 500 || y < 0) {
+	      yVelocity = -yVelocity;
+	  }
+      }
+
+      public void draw() {
+	  g.setColor(Color.blue);
+	  g.fillOval(x, y, diameter, diameter);
+	  g.setColor(Color.white);
+	  int radius = diameter/2;
+	  g.drawString(String.format("%d", id), x + radius, y + radius);
+	  try {
+	      Thread.sleep(20);
+	  }
+	  catch (InterruptedException ex) {}
+	  hide();
+      }
+
+      public void run() {
+	  while (alive) {
+	      move();
+	      draw();
+	  }
+      }
+
+      public void hide() {
+	  g.setColor(Color.white);
+	  g.fillOval(x, y, diameter, diameter);
+      }
+
+      public void delete() {
+	  System.out.println(String.format("Deleted ball %d", id));
+	  alive = false;
+	  hide();
+	  panel.removeMouseListener(this);
+      }
+
+      public boolean contains(int xc, int yc) {
+	  return (xc > x && xc < x + diameter &&
+		  yc > y && yc < y + diameter);
+      }
+
+      public void mouseClicked(MouseEvent me) {
+	  if (contains(me.getX(), me.getY())) {
+	      delete();
+	  }
+      }
+
+      public void mousePressed(MouseEvent me) { }
+      public void mouseReleased(MouseEvent me) { }
+      public void mouseEntered(MouseEvent me) { }
+      public void mouseExited(MouseEvent me) { }
+
+  }
+
+  class Tester {
+
+      public static void main(String[] args) {
+	  new Board();
+      }
+
+  }
+
+03/04/2014
+==========
+
+.. image:: images/week7_2.png
+
+Inner classes are classes that are declared within a class.
+
+Inner classes can be declared at the **instance level** or **method level**.
+
+An inner class declared at the instance level is shown in UML by composition
+(shaded diamond).
+
+An inner class declared at the method level is not included in a UML diagram.
+
+* A private inner class can only be used within the class.
+* A public inner class can be used for object references outside of the class
+  (with Outer.Inner), but not created outside of the class (An instance is
+  needed for creation).
+* A public static inner class can be created and stored outside of the class.
+* A class declared within a method can only be accessed within that method, and
+  only in the lines following the declaration of the inner class.
+
+Example::
+
+  class Employee {
+
+      // Instance-level inner class.
+      // Can't store an instance outside of the class.
+      private class Job {
+
+	  public void m1() {
+	      System.out.println("Inner class of Employee - Job .. m1");
+	  }
+
+      }
+
+      // Public Instance-level inner class.
+      // Can't create an instance outside of the class.
+      class Car {
+
+	  public void m6() {
+	      System.out.println("Inner class of Employee - Car .. m6");
+	  }
+
+      }
+
+      // Public, static instance-level inner class (can be created from outside).
+      // Can create and store instance outside of the class.
+      static class Food {
+
+	  public void m5() {
+	      System.out.println("Inner class of Employee - Food .. m5");
+	  }
+
+      }
+
+      public void m2() {
+	  Job j = new Job();
+	  j.m1();
+      }
+
+      public void m3() {
+	  Job j = new Job();
+	  j.m1();
+      }
+
+      public Car m4() {
+	  return new Car();
+      }
+
+      public void m7() {
+	  // Note, Pencil mut be declared in the method before creating an instance.
+	  // Otherwise, the operations are out of sequence.
+	  // Can't be accessed at all from outside the method.
+	  class Pencil {
+
+	      public void m8() {
+		  System.out.println("Inner class of Employee m7 - Pencil .. m8");
+	      }
+
+	  }
+	  Pencil p1 = new Pencil();
+	  p1.m8();
+      }
+
+  }
+
+  class Tester {
+
+      public static void main(String[] args) {
+	  Employee e1 = new Employee();
+	  e1.m2();
+	  e1.m3();
+	  e1.m7();
+	  Employee.Car c1 = e1.m4();
+	  c1.m6();
+	  Employee.Food f1 = new Employee.Food();
+	  f1.m5();
+      }
+
+  }
+
+Final access modifier
+---------------------
+
+* The value of a final attribute cannot be changed.
+* A final method cannot be overridden.
+* A final class cannot be extended.
+
+Public, static, final attributes can even be declared in an interface.
+
+Example::
+
+  class Mathematics {
+
+      // The value of a final attribute cannot be changed.
+      public final float pi = 3.14f;
+
+      public void m1() {
+	  // Final value cannot be changed.
+	  // pi = 5f;
+      }
+
+      // Final method cannot be overridden.
+      public final int sum(int x, int y) {
+	  return x + y;
+      }
+
+  }
+
+  // A final class cannot be extended.
+  final class Calculus extends Mathematics {
+
+      public void m2() {
+	  // Final value cannot be changed.
+	  // pi = 7f;
+      }
+
+      // Final method cannot be overridden.
+      /*
+      public int sum(int x, int y) {
+	  return x + y + 1;
+      }
+      */
+
+  }
+
+
+  // A final class cannot be extended.
+  /*
+  class Algebra extends Calculus {
+
+  }
+  */
+
+  class Tester {
+
+      public static void main(String[] args) {
+	  Calculus c = new Calculus();
+
+	  // Final value cannot be changed.
+	  // c.pi = 4;
+
+	  System.out.println(c.pi);
+	  System.out.println(c.sum(2, 2));
+      }
+
+  }
+
+A non-GUI component should not use Listeners, but should use **observation**
+instead::
+
+  import java.util.*;
+
+  class Supervisor implements Observer {
+
+      public void update(Observable observable, Object object) {
+	  System.out.println(String.format("Observer Supervisor .. update - %s", observable));
+      }
+
+  }
+
+  class Worker extends Observable {
+
+      public void call() {
+	  setChanged();
+	  notifyObservers();
+      }
+
+  }
+
+  class Tester {
+
+      public static void main (String[] args) {
+	  Supervisor s = new Supervisor();
+	  Worker w = new Worker();
+	  w.addObserver(s);
+	  w.call();
+      }
+
+  }
