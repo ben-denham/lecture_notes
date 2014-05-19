@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.0">
+  <zoom_level>9</zoom_level>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>900</x>
+      <y>207</y>
+      <w>44</w>
+      <h>494</h>
+    </coordinates>
+    <panel_attributes>lt=.
+m2=..</panel_attributes>
+    <additional_attributes>27;477;27;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>72</x>
+      <y>171</y>
+      <w>306</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>/&lt;&lt;interface&gt;&gt; RemoteDatabase/
+--
++query(query:String):Vector t RemoteException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>198</x>
+      <y>207</y>
+      <w>44</w>
+      <h>107</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>27;27;27;90</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>261</x>
+      <y>684</y>
+      <w>693</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>Naming</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>999</x>
+      <y>468</y>
+      <w>144</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>/&lt;&lt;interface&gt;&gt; Serializable/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>540</x>
+      <y>297</y>
+      <w>261</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>PlayerService
+--
+tennisDb:RemoteDatabase
+--
++() t RemoteException
++get(id:Integer):Player t RemoteException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>756</x>
+      <y>396</y>
+      <w>44</w>
+      <h>305</h>
+    </coordinates>
+    <panel_attributes>lt=.
+m2=..</panel_attributes>
+    <additional_attributes>27;288;27;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>468</x>
+      <y>360</y>
+      <w>89</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>27;81;72;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>72</x>
+      <y>297</y>
+      <w>306</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>TennisDatabase
+--
++() t RemoteException
++query(query:String):Vector t RemoteException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>459</x>
+      <y>486</y>
+      <w>306</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>PlayerServiceServer
+--
++(c)main(args:String{})</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>72</x>
+      <y>486</y>
+      <w>306</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>TennisDatabaseServer
+--
++(c)main(args:String{})</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>630</x>
+      <y>585</y>
+      <w>44</w>
+      <h>116</h>
+    </coordinates>
+    <panel_attributes>lt=.
+m2=..</panel_attributes>
+    <additional_attributes>27;99;27;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1035</x>
+      <y>396</y>
+      <w>44</w>
+      <h>89</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>27;72;27;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>963</x>
+      <y>63</y>
+      <w>162</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>/&lt;&lt;interface&gt;&gt; ActionListener/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>639</x>
+      <y>396</y>
+      <w>44</w>
+      <h>107</h>
+    </coordinates>
+    <panel_attributes>lt=.
+m1=..</panel_attributes>
+    <additional_attributes>27;90;27;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>540</x>
+      <y>171</y>
+      <w>261</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>/&lt;&lt;interface&gt;&gt; PlayerRemote/
+--
++get(id:Integer):Player t RemoteException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>387</x>
+      <y>441</y>
+      <w>153</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>UnicastRemoteObject</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>324</x>
+      <y>585</y>
+      <w>44</w>
+      <h>116</h>
+    </coordinates>
+    <panel_attributes>lt=.
+m2=..</panel_attributes>
+    <additional_attributes>27;99;27;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>234</x>
+      <y>72</y>
+      <w>260</w>
+      <h>116</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>243;27;27;99</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>630</x>
+      <y>207</y>
+      <w>44</w>
+      <h>107</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>27;27;27;90</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>351</x>
+      <y>369</y>
+      <w>98</w>
+      <h>89</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>81;72;27;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>234</x>
+      <y>396</y>
+      <w>44</w>
+      <h>107</h>
+    </coordinates>
+    <panel_attributes>lt=.
+m1=..</panel_attributes>
+    <additional_attributes>27;90;27;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>774</x>
+      <y>324</y>
+      <w>206</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>lt=.
+m2=..</panel_attributes>
+    <additional_attributes>189;27;27;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>864</x>
+      <y>135</y>
+      <w>225</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>PlayerForm
+--
+playerModel:PlayerRemote
+--
++()
++actionPerformed(ae:ActionEvent)
++(c)main(args:String{})</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>999</x>
+      <y>63</y>
+      <w>44</w>
+      <h>89</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>27;27;27;72</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>963</x>
+      <y>306</y>
+      <w>234</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>Player
+--
++()
++(id:Integer, name:String, town:String)
+--
+-id:Integer
+-name:String
+-town:String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>423</x>
+      <y>72</y>
+      <w>126</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>/&lt;&lt;interface&gt;&gt; Remote/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>1017</x>
+      <y>207</y>
+      <w>44</w>
+      <h>116</h>
+    </coordinates>
+    <panel_attributes>lt=.
+m2=..</panel_attributes>
+    <additional_attributes>27;99;27;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>468</x>
+      <y>72</y>
+      <w>197</w>
+      <h>116</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>27;27;180;99</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>351</x>
+      <y>171</y>
+      <w>206</w>
+      <h>179</h>
+    </coordinates>
+    <panel_attributes>m2=..</panel_attributes>
+    <additional_attributes>27;27;189;162</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>864</x>
+      <y>63</y>
+      <w>90</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>JFrame</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>774</x>
+      <y>180</y>
+      <w>107</w>
+      <h>44</h>
+    </coordinates>
+    <panel_attributes>m2=..</panel_attributes>
+    <additional_attributes>27;27;90;27</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>882</x>
+      <y>63</y>
+      <w>44</w>
+      <h>89</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>27;27;27;72</additional_attributes>
+  </element>
+</diagram>

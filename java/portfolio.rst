@@ -14,8 +14,11 @@ Week 1 Configuration:
   configuration lines:
 
   * ``set path="C:\Program Files\Java\jdk1.7.0_45\bin"``
+
     * Which adds the java executables to the system path.
+
   * ``set classpath=h:\java_course\java_code``
+
     * Which sets my java code directory to the directory where java classes
       should be created.
 
@@ -1864,3 +1867,24 @@ Example of querying and displaying data in UI::
       }
 
   }
+
+Task:
+
+User enters player number into screen.
+Presses "Get" button.
+Client calls application server with RMI.
+Server calls DB server with RMI.
+DB server gets name and town from tennis.mdb.
+Data gets passed back through, and Name and Town fields are populated.
+Exit button closes application.
+
+Factory Method Design Pattern
+=============================
+
+Class contains a private constructor so a new object cannot be created from
+outside the class.
+
+A static method will be provided in the class that will create and return a new
+object.
+
+This is used when initialization of the object is difficult.
