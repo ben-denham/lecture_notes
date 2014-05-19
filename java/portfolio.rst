@@ -27,11 +27,10 @@ Week 1 Configuration:
   * Run: ``cmd``
   * Move to H:\ drive (by running ``h:``)
   * Move to java_code (by running ``cd java_course\java_code``)
-  * Run ``javac``
-    * Confirm it cannot be found
+  * Run ``javac`` to Confirm it cannot be found
   * Run ``myconfigb.bat``
-  * Run ``javac``
-    * Confirm usage is displayed, because we didn’t provide a java code file.
+  * Run ``javac`` to confirm usage is displayed, because we didn’t provide a
+    java code file.
 
 ``javac`` compiles java source files (``.java``), and ``java`` runs java class
 files (``.class``).
@@ -40,7 +39,7 @@ javac may encounter compilation errors, java runtime may encounter logic errors.
 
 Java **keywords** are all **lowercase**.
 
-**Standard**: All class names are upper camel case.`
+**Standard**: All class names are upper camel case.
 
 No members should be outside a class; no code should be outside of methods.
 
@@ -71,7 +70,7 @@ First program
 * Put the code in ``ben1.java``
 * Run ``javac ben1.java`` to compile the class in the file.
 * Then, ``Employee.class`` has been created, so we can run ``java Employee`` to
-  run the class with the java runtime (which invokes the main() method)
+  run the class with the java runtime (which invokes the ``main()`` method)
 * **Explanation**:
 
   * ``Employee`` class containing a main method
@@ -102,12 +101,18 @@ First program
 Question answers:
 ----------
 
-1) Java is cross-platform, and strongly typed, which is useful for certain applications.
-2) JVM = Java Virtual Machine: The runtime environment for compiled java code to run on any
-   OS.
+1) Java is cross-platform, and strongly typed, which is useful for certain
+   applications.
+2) JVM = Java Virtual Machine: The runtime environment for compiled java code to
+   run on any OS.
 3) A class is a template for creating objects.
-4) A class's main method is invoked when the class is run with ``java`` from the command
-   line. Without a main method, a class cannot be run as a program.
+4) A class's main method is invoked when the class is run with ``java`` from the
+   command line. Without a main method, a class cannot be run as a program.
+5) A public member can be accessed from any code, a private member can only be
+   accessed from within the class.
+6) A static method is stored inside the class itself, not an object. It is
+   callable on the class, and it cannot access instance members, as it is not
+   associated an object instance.
 
 20/02/2014
 ==========
@@ -122,39 +127,43 @@ Diagram
 -------
 
 Tester
-+----------+
-|          |
-+----------+
-|C+main(..)|
-+----------+
+
++------------+
+|            |
++------------+
+| C+main(..) |
++------------+
 
 Employee
-+----------+
-|          |
-+----------+
-|+pay()    |
-|+work()   |
-|-eat()    |
-|+workPay()|
-+----------+
+
++------------+
+|            |
++------------+
+| +pay()     |
+| +work()    |
+| -eat()     |
+| +workPay() |
++------------+
 
 Staff
-+----------+
-|          |
-+----------+
-|+work()   |
-|+jobWork()|
-+----------+
+
++------------+
+|            |
++------------+
+| +work()    |
+| +jobWork() |
++------------+
 
 
 Manager
-+----------+
-|          |
-+----------+
-|          |
-+----------+
 
-::
++------------+
+|            |
++------------+
+|            |
++------------+
+
+Example::
 
   class Tester {
       public static void main(String[] args) {
@@ -170,13 +179,15 @@ Manager
 	  // Staff .. work
 	  emp2.work();
 
-	  // Causes compilation error (Private member not visible outside of class).
+	  // Causes compilation error (Private member not visible outside of
+	  // class).
 	  //emp1.eat();
 
 	  // Causes compilation error (Not visible from superclass ref).
 	  //emp2.jobWork();
 
-	  // Causes compilation error (Subclass ref cannot point to superclass obj).
+	  // Causes compilation error (Subclass ref cannot point to superclass
+	  // obj).
 	  // Staff emp3 = Employee();
       }
   }
@@ -216,17 +227,21 @@ Manager
   }
 
 Application Development
-  Creating an executable class with a main method; makes use of object libraries.
+  Creating an executable class with a main method; makes use of object
+  libraries.
 
 Object Engineering
-  Creating classes that will be used to create objects in applications and other classes.
+  Creating classes that will be used to create objects in applications and other
+  classes.
 
-When a class is loaded from the disk into memory, only static methods are stored as part of
-the class. Instance methods are stored with context as part of each instance.
+When a class is loaded from the disk into memory, only static methods are stored
+as part of the class. Instance methods are stored with context as part of each
+instance.
 
-When accessing an instance member from within an instance method, the keyword ``this`` can
-ben used to access the current instance. If there is no name conflict, this can even be
-omitted, and the member accessed directly (as showing in ``Employee.workPay()``)
+When accessing an instance member from within an instance method, the keyword
+``this`` can be used to access the current instance. If there is no name
+conflict, this can even be omitted, and the member accessed directly (as showing
+in ``Employee.workPay()``)
 
 OOP
 ---
@@ -234,20 +249,21 @@ OOP
 Inheritance
   "Is-a" relationship. Closed, empty arrow pointing toward superclass in UML.
 
-An object-reference of a parent type can point to an instance of child type, but only the
-parent's members will be accessible. Try to use parent object-references as much as
-possible.
+An object-reference of a parent type can point to an instance of child type, but
+only the parent's members will be accessible. Try to use parent
+object-references as much as possible.
 
-An object-reference of child type cannot point towards an object of parent type, because
-it will not be able to fulfil the specialised role.
+An object-reference of child type cannot point towards an object of parent type,
+because it will not be able to fulfil the specialised role.
 
-In an OO-inheritance hierarchy, **specialization** is downward, **generalization** is
-upward.
+In an OO-inheritance hierarchy, **specialization** is downward,
+**generalization** is upward.
 
-Even if a child class is empty, it can still be used in the same way as it's parent.
+Even if a child class is empty, it can still be used in the same way as it's
+parent.
 
-A private member cannot be accessed from outside of the same class (not even in child
-classes).
+A private member cannot be accessed from outside of the same class (not even in
+child classes).
 
 25/02/2014
 ==========
@@ -308,20 +324,21 @@ classes).
 
   class Tester {
       public static void main(String[] args) {
-	  // Prints "Employee .. constructor" and "Staff .. constructor", as the constructor
-	  // is fired.
+	  // Prints "Employee .. constructor" and "Staff .. constructor", as the
+	  // constructor is fired.
 	  Employee emp = new Staff(1001, "Ben", "Denham", 120000);
 	  testEmp(emp);
 
-	  // Prints "Employee .. constructor" and "Manager .. constructor", as the constructor
-	  // is fired.
+	  // Prints "Employee .. constructor" and "Manager .. constructor", as
+	  // the constructor is fired.
 	  Employee mgr = new Manager(1001, "Ben", "Denham", 120000);
 	  testEmp(mgr);
       }
 
       public static void testEmp(Employee emp) {
-	  // Prints "{Class} .. work" as work() is fired. Also returns the employee
-	  // description, which we store in our local String variable: fullName.
+	  // Prints "{Class} .. work" as work() is fired. Also returns the
+	  // employee  description, which we store in our local:
+	  // String variable: fullName.
 	  String description = emp.work();
 	  // Prints the description that we stored in the last line.
 	  System.out.println(description);
@@ -336,59 +353,64 @@ In Java, attributes are declared in a class with the following syntax::
 Constructors
 ------------
 
-A special method that is automatically run when an instance of a class is created.
+A special method that is automatically run when an instance of a class is
+created.
 
-Constructors are useful for initializing variables, and for initializing other required
-context (e.g. database connections).
+Constructors are useful for initializing variables, and for initializing other
+required context (e.g. database connections).
 
-The constructor must be public, must have no return value, and must have the same name as
-the class.
+The constructor must be public, must have no return value, and must have the
+same name as the class.
 
-Note how we pass arguments to the constructor when initializing an object with ``new`` (see
-``Tester.main()``).
+Note how we pass arguments to the constructor when initializing an object with
+``new`` (see ``Tester.main()``).
 
 Method arguments and return values
 ----------------------------------
 
-Note how Employee.work() returns a ``String`` instead of ``void``, by declaring the return
-type and by using the ``return`` keyword.
+Note how Employee.work() returns a ``String`` instead of ``void``, by declaring
+the return type and by using the ``return`` keyword.
 
 We must return a value that matches the specified return data type (String).
 
-Note how in the constructor of Employee, we accepted arguments by specifying the data type
-and variable name of each argument.
+Note how in the constructor of Employee, we accepted arguments by specifying the
+data type and variable name of each argument.
 
-Note: Because these local variables (fname, lname) conflict with the instance variables of
-the same names, the local variables take preference when being referenced, and the instance
-variables must be referenced with ``this``. When there is no conflict, instance variables
-can be referenced without ``this``.
+Note: Because these local variables (fname, lname) conflict with the instance
+variables of the same names, the local variables take preference when being
+referenced, and the instance variables must be referenced with ``this``. When
+there is no conflict, instance variables can be referenced without ``this``.
 
-When an object reference is created of a reference type (E.g. String or another class), the
-default value is null. (Primitive types have a default value, such as 0 for number types.)
+When an object reference is created of a reference type (E.g. String or another
+class), the default value is null. (Primitive types have a default value, such
+as 0 for number types.)
 
 Local and Instance variables
 ----------------------------
 
-When local variables conflict with instance variables of the same names, the local
-variables take preference when being referenced, and the instance variables must be
-referenced with ``this``. When there is no conflict, instance variables can be referenced
-without ``this``.
+When local variables conflict with instance variables of the same names, the
+local variables take preference when being referenced, and the instance
+variables must be referenced with ``this``. When there is no conflict, instance
+variables can be referenced without ``this``.
 
-* A local variable is allocated when a method runs, and becomes innaccessible when the method
-  finishes.
-* An instance variable is allocated when an object is created, and becomes innaccessible when
-  the object becomes innaccessible.
-* A static variable is allocated when the class is loaded into memory, and becomes
-  inaccessible when the class becomes innaccessible (usually when the program finishes).
+* A local variable is allocated when a method runs, and becomes inaccessible
+  when the method finishes.
+* An instance variable is allocated when an object is created, and becomes
+  inaccessible when the object becomes inaccessible.
+* A static variable is allocated when the class is loaded into memory, and
+  becomes inaccessible when the class becomes inaccessible (usually when the
+  program finishes).
 
 Overriding
 ----------
 
-When we declare a method in a class that has already been declared in a parent class with
-the same signature (method name and arguments types and order), then that method is said to
-**override** the method in the parent class.
+When we declare a method in a class that has already been declared in a parent
+class with the same signature (method name and arguments types and order), then
+that method is said to **override** the method in the parent class.
 
-Whenever the method is called for an object of the child type (even when the object reference is of parent type), the overriding definition is used instead of the original one.
+Whenever the method is called for an object of the child type (even when the
+object reference is of parent type), the overriding definition is used instead
+of the original one.
 
 27/02/2014
 ==========
@@ -405,18 +427,18 @@ Assignment
 Java UI
 --------
 
-Earliest form: AWT. AWT had classes for ``Frame``, ``Textfield``,`` Button``,
+Earliest form: AWT. AWT had classes for ``Frame``, ``Textfield``, ``Button``,
 etc. Problem: the screens were not as good as VB user interfaces.
 Namespace: ``java.awt``
 
-Swing extends AWT (through inheritance). Swing classes always start with "J" (e.g.
-``JFrame``, ``JButton``). Namespace: ``javax.swing``
+Swing extends AWT (through inheritance). Swing classes always start with "J"
+(e.g. ``JFrame``, ``JButton``). Namespace: ``javax.swing``
 
-To create our own form, we create our own class that inherits from ``JFrame``. Our
-custom form will then contain other controls like buttons and textfields.
+To create our own form, we create our own class that inherits from ``JFrame``.
+Our custom form will then contain other controls like buttons and textfields.
 
-Using ``import java.awt.*`` will import all class, abstract classes, interfaces, etc.
-inside ``java.awt``, but not any sub-namespaces.
+Using ``import java.awt.*`` will import all class, abstract classes, interfaces,
+etc. inside ``java.awt``, but not any sub-namespaces.
 
 Action Listening
 ----------------
@@ -424,11 +446,13 @@ Action Listening
 We must have a class that implements ``ActionListener`` by including the method
 ``public void actionPerformed(ActionEvent ae)``. This class can be our Frame.
 
-We must also add the instance of our ``ActionListener`` as a listener for a control. For
-example, if I want the current frame I am constructing to listen to btnOkay, I use:
-``btnOkay.addActionListener(this); // this is my frame that implements ActionListener``.
+We must also add the instance of our ``ActionListener`` as a listener for a
+control. For example, if I want the current frame I am constructing to listen to
+btnOkay, I use: ``btnOkay.addActionListener(this); // this is my frame that
+implements ActionListener``.
 
 ::
+
   import java.awt.*;
   import javax.swing.*;
   import java.awt.event.*;
@@ -440,8 +464,8 @@ example, if I want the current frame I am constructing to listen to btnOkay, I u
       public MainFrame() {
 
 	  setTitle("My First UI");
-	  // Don't use any automatic layout. If we used a layout, we wouldn't need to
-	  // specify all of bounds.
+	  // Don't use any automatic layout. If we used a layout, we wouldn't
+	  // need to specify all of bounds.
 	  setLayout(null);
 	  // Use setBounds(posX, posY, width, height) to position the Frame.
 	  setBounds(10, 10, 400, 600);
@@ -462,8 +486,8 @@ example, if I want the current frame I am constructing to listen to btnOkay, I u
 	  btnOkay.addActionListener(this);
 	  btnGet.addActionListener(this);
 
-	  // We add the items to the container instead of this object in order to avoid
-	  // conflicts with the JFrame superclass?
+	  // We add the items to the container instead of this object in order
+	  // to avoid conflicts with the JFrame superclass?
 	  Container con = getContentPane();
 	  con.add(lblCustomerName);
 	  con.add(txtCustomerName);
@@ -474,7 +498,8 @@ example, if I want the current frame I am constructing to listen to btnOkay, I u
 	  setVisible(true);
       }
 
-      // Implements the ActionListener interface. Handles actions this Frame is listening to.
+      // Implements the ActionListener interface. Handles actions this Frame is
+      // listening to.
       public void actionPerformed(ActionEvent ae) {
 	  String msg = ae.getActionCommand();
 	  txtCustomerName.setText(msg);
@@ -499,16 +524,18 @@ Basic ideas of Swing Frame
 * In the constructor:
 
   * Configure the Frame (Set title, bounds, no layout)
-  * Create controls (in local variables, and setting instances of instance variables)
+  * Create controls (in local variables, and setting instances of instance
+    variables)
   * Configure controls (Sset bounds, etc.)
   * Set up Frame to listen to controls (``control.addActionListener(this);``)
   * Add the controls to the Frame's container.
   * Set the Frame to be visible
 
-* In actionPerformed(ActionEvent ae):
+* In ``actionPerformed(ActionEvent ae)``:
 
   * Handle control actions (events) based on the contents of ae.
-  * ``java.awt.event.ActionEvent`` stores information about an action that fired.
+  * ``java.awt.event.ActionEvent`` stores information about an action that
+    fired.
 
 04/03/2014
 ==========
@@ -572,7 +599,8 @@ Basic ideas of Swing Frame
   class ProductFrameListener implements ActionListener {
 
       public void actionPerformed(ActionEvent ae) {
-	  System.out.println("ProductListener: '" + ae.getActionCommand() + "' button was clicked.");
+	  System.out.println("ProductListener: '" + ae.getActionCommand() +
+	  "'button was clicked.");
       }
 
   }
@@ -591,18 +619,9 @@ Above is code similar to last week's, but with more fields and buttons.
 Also, we use a separate ``ProductFrameListener`` to listen to our button events,
 rather than making the ``ProductFrame`` act as a listener.
 
-HOMEWORK: CREATE UML FROM THE ABOVE CODE.
+HOMEWORK: CREATE UML FROM THE ABOVE CODE:
 
-Collections Framework
----------------------
-
-Vector
-``````
-
-Can have a generic type, but doens't have to: ``Vector<E>``
-
-Hashtable
-`````````
+.. image:: images/week3_1_uml.png
 
 06/03/2014
 ==========
@@ -621,6 +640,14 @@ Try to avoid using ``instanceof`` and typecasting.
 
 11/03/2014
 ==========
+
+Collections Framework
+---------------------
+
+Vector
+``````
+
+Can have a generic type, but doesn't have to: ``Vector<E>``
 
 Vectors are serial, because their items must be referred to by an index, not by
 a key.
@@ -737,7 +764,7 @@ parent class (normal or abstract) or interface ojbect references::
   }
 
 Hashtable
----------
+`````````
 
 Advantages:
 
@@ -853,9 +880,9 @@ Full example::
 
 .. image:: images/week4_2.png
 
+``Employee (ecode, fname, lname)``
 
-Employee (ecode, fname, lname)
-Customer (ccode, name, ecode)
+``Customer (ccode, name, ecode)``
 
 Note: In UML 2, an object can be represented like a class, but with a name like:
 ``objectName:ClassName`` that is underlined (object name is optional, but the
@@ -908,7 +935,8 @@ Example::
 
       public void listCustomers() {
 	  /*
-	  // Collection is slower than Enumeration, but safer when multithreading.
+	  // Collection is slower than Enumeration, but safer when
+	  // multithreading.
 	  for (Customer customer : customers.values()) {
 	      customer.print();
 	  }
@@ -940,7 +968,8 @@ Example::
       }
 
       public void print() {
-	  System.out.println("Employee: " + ecode + " - " + firstName + " " + lastName);
+	  System.out.println("Employee: " + ecode + " - " + firstName + " " +
+	  lastName);
       }
 
   }
@@ -1014,10 +1043,8 @@ When implementing a design:
 
    * Getters/Setters.
 
-4. 
-
-Use super() to call the parent constructor. super() must be the first line in
-the constructor.
+Use ``super()`` to call the parent constructor. ``super()`` must be the first
+line in the constructor.
 
 Instead of public attributes, use getters and setters::
 
@@ -1180,20 +1207,20 @@ Threads
 
 * Class extends Thread::
 
-  class Ball extends Thread {
-     public void run() {
-       while(true) {
-         // Do stuff
+    class Ball extends Thread {
+       public void run() {
+         while(true) {
+           // Do stuff
+         }
        }
-     }
-  }
-
-  class Tester {
-    public static void main() {
-      Ball ball = new Ball();
-      ball.start();
     }
-  }
+
+    class Tester {
+      public static void main() {
+        Ball ball = new Ball();
+        ball.start();
+      }
+    }
 
 * Class implements Runnable, and we create a new Thread with the Runnable as an
   argument::
@@ -1214,11 +1241,11 @@ Threads
       }
     }
 
-We run start() instead of run(), because start() includes the setup for a
-thread, and includes running run().
+We run ``start()`` instead of ``run()``, because ``start()`` includes the setup
+for a thread, and includes running ``run()``.
 
 If a thread is constructed with a Runnable, that is run instead of the thread's
-run() method.
+``run()`` method.
 
 Multiple balls example::
 
@@ -1246,7 +1273,8 @@ Multiple balls example::
 	  Thread ballThread;
 	  for (int i = 0; i < 10; i++) {
 	      ball = new Ball(g, i * 10);
-	      ball.setLocation((int)Math.random() * 100, (int)Math.random() * 100);
+	      ball.setLocation((int)Math.random() * 100,
+	      (int)Math.random() * 100);
 	      ball.setVelocity(i, 10 - i);
 	      // If Ball extended Thread, we could use:
 	      //ball.start();
@@ -1395,7 +1423,8 @@ Example::
 	  Thread ballThread;
 	  for (int i = 0; i < 10; i++) {
 	      ball = new Ball(this, 30 + i * 10);
-	      ball.setLocation((int)Math.random() * 100, (int)Math.random() * 100);
+	      ball.setLocation((int)Math.random() * 100,
+	      (int)Math.random() * 100);
 	      ball.setVelocity(i, 10 - i);
 
 	      // If Ball extended Thread, we could use:
@@ -1564,7 +1593,8 @@ Example::
 
       }
 
-      // Public, static instance-level inner class (can be created from outside).
+      // Public, static instance-level inner class (can be created from
+      // outside).
       // Can create and store instance outside of the class.
       static class Food {
 
@@ -1589,13 +1619,14 @@ Example::
       }
 
       public void m7() {
-	  // Note, Pencil mut be declared in the method before creating an instance.
-	  // Otherwise, the operations are out of sequence.
+	  // Note, Pencil mut be declared in the method before creating an
+	  // instance. Otherwise, the operations are out of sequence.
 	  // Can't be accessed at all from outside the method.
 	  class Pencil {
 
 	      public void m8() {
-		  System.out.println("Inner class of Employee m7 - Pencil .. m8");
+		  System.out.println(
+		  "Inner class of Employee m7 - Pencil ..m8");
 	      }
 
 	  }
@@ -1695,7 +1726,8 @@ instead::
   class Supervisor implements Observer {
 
       public void update(Observable observable, Object object) {
-	  System.out.println(String.format("Observer Supervisor .. update - %s", observable));
+	  System.out.println(String.format("Observer Supervisor .. update - %s",
+	  observable));
       }
 
   }
@@ -1741,20 +1773,20 @@ instead::
   } catch (Exception e) {}
 
 Before any database connection can be made, we must load the driver class by
-calling the static method forName() on Class.
+calling the static method ``forName()`` on Class.
 
-DriverManager has static getConnection(), which returns an object that
+DriverManager has static ``getConnection()``, which returns an object that
 implements the Connection interface.
 
-The connection has createStatement(), which returns an object that implements
-the Statement interface.
+The connection has ``createStatement()``, which returns an object that
+implements the Statement interface.
 
-The statement has methods like executeQuery(), that will execute the query
+The statement has methods like ``executeQuery()``, that will execute the query
 through the db connection, and returns an object implementing the ResultSet
 interface.
 
-The result set can be navigated and accessed with methods such as next() and
-getString(). 
+The result set can be navigated and accessed with methods such as ``next()`` and
+``getString()``. 
 
 Example of querying and displaying data in UI::
 
@@ -1768,7 +1800,8 @@ Example of querying and displaying data in UI::
       public static void main(String[] args) {
 	  try {
 	      Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
-	      Connection connection = DriverManager.getConnection("jdbc:odbc:tennis_access","","");
+	      Connection connection = DriverManager.getConnection(
+	      "jdbc:odbc:tennis_access","","");
 	      PlayerForm playerForm = new PlayerForm(connection);
 	      // We should really close the connection at some point.
 	  } catch (Exception e) {
@@ -1856,27 +1889,19 @@ Example of querying and displaying data in UI::
 
       public String[] getPlayer(int playerno) throws SQLException{
 	  Statement statement = connection.createStatement();
-	  String query = "select name, initials, town from players where playerno = " + playerno;
+	  String query = "select name, initials, town from players where " +
+	  "playerno = " + playerno;
 	  ResultSet result = statement.executeQuery(query);
 
 	  if (result.next()) {
-	      return new String[] {result.getString(1), result.getString(2), result.getString(3)};
+	      return new String[] {result.getString(1), result.getString(2),
+	      result.getString(3)};
 	  }
 
 	  return null;
       }
 
   }
-
-Task:
-
-User enters player number into screen.
-Presses "Get" button.
-Client calls application server with RMI.
-Server calls DB server with RMI.
-DB server gets name and town from tennis.mdb.
-Data gets passed back through, and Name and Town fields are populated.
-Exit button closes application.
 
 Factory Method Design Pattern
 =============================
@@ -1888,3 +1913,16 @@ A static method will be provided in the class that will create and return a new
 object.
 
 This is used when initialization of the object is difficult.
+
+RMI
+===
+
+Task:
+
+User enters player number into screen.
+Presses "Get" button.
+Client calls application server with RMI.
+Server calls DB server with RMI.
+DB server gets name and town from tennis.mdb.
+Data gets passed back through, and Name and Town fields are populated.
+Exit button closes application.
