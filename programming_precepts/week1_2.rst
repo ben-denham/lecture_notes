@@ -10,7 +10,7 @@ substituted into the other equation to provide a linear equation:
 2x + 3y = 5
 x = (5 - 3y)/2
 
-5x - 4y = -22
+5x - 4y = -22g
 5(5 - 3y)/2 - 4y = -22
 25 - 15y - 8y = -44
 -23y = -69
@@ -112,12 +112,12 @@ Workbook 2
 1A)
 
   1) 4.76 * 10^-4
-  2) 0.000064
+  2) 0.3807307877431757
   3) 0.028
 
 2A)
 
-  1) b^2 - 3b = b(b - 3)
+  1) - b^2 - 3b = b(b - 3) X
   2) 108(a^6)(d^8)
   3) abc + ad
   4) a^3 - (a^2)b + ab - b^2
@@ -128,7 +128,7 @@ Workbook 2
      c) y(a + 1)
      d) bcde(a + 1)
 
-  6) -2a + 4b
+  6) 2(2b - a) X
 
 3A)
 
@@ -196,7 +196,7 @@ Workbook 2
      c) t(2a + 1)
      d) xy(2yz + x)
 
-  6) a + 8b
+  6) a + 5b
 
 3B)
   1) 7a + 8 = 9a - 3
