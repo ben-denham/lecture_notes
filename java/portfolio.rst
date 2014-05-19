@@ -252,7 +252,7 @@ classes).
 25/02/2014
 ==========
 
-.. image:: images/week2_1png
+.. image:: images/week2_1.png
 
 ::
 
@@ -991,7 +991,7 @@ Homework: Look up other collections in collections framework.
 18/03/2014
 ==========
 
-.. image:: images/week5_2.png
+.. image:: images/week5_1.png
 
 Early binding vs. late binding
 ------------------------------
