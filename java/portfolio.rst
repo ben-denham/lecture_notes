@@ -369,6 +369,9 @@ same name as the class.
 Note how we pass arguments to the constructor when initializing an object with
 ``new`` (see ``Tester.main()``).
 
+If we have a constructor in a child class that does not call the a parent
+constructor with ``super``, a call to ``super()`` seems to be implied. 
+
 Method arguments and return values
 ----------------------------------
 
@@ -1209,6 +1212,8 @@ Threads
 
 2 ways to do multithreading:
 
+.. image:: images/thread.png
+
 * Class extends Thread::
 
     class Ball extends Thread {
@@ -1662,7 +1667,7 @@ Final access modifier
 * A final method cannot be overridden.
 * A final class cannot be extended.
 
-Public, static, final attributes can even be declared in an interface.
+**Public static final attributes can even be declared in an interface.**
 
 Example::
 
@@ -1670,10 +1675,14 @@ Example::
 
       // The value of a final attribute cannot be changed.
       public final float pi = 3.14f;
+      // If the final value is not set here, it can still be set in the
+      // cosntructor:
+      public final String test;
 
       public void m1() {
 	  // Final value cannot be changed.
 	  // pi = 5f;
+	  test = "Setting final value from constructor";
       }
 
       // Final method cannot be overridden.
@@ -1908,7 +1917,7 @@ Example of querying and displaying data in UI::
   }
 
 Factory Method Design Pattern
-=============================
+-----------------------------
 
 Class contains a private constructor so a new object cannot be created from
 outside the class.
@@ -1918,15 +1927,679 @@ object.
 
 This is used when initialization of the object is difficult.
 
+.. image:: images/factory_method.png
+
+::
+
+  class Foo {
+
+    private Foo() { }
+
+    public static Foo createFoo() {
+      return new Foo();
+    }
+
+  }
+
 RMI
-===
+---
 
-Task:
+Task
+````
 
-User enters player number into screen.
-Presses "Get" button.
-Client calls application server with RMI.
-Server calls DB server with RMI.
-DB server gets name and town from tennis.mdb.
-Data gets passed back through, and Name and Town fields are populated.
-Exit button closes application.
+* User enters player number into screen.
+* Presses "Get" button.
+* Client calls application server with RMI.
+* Server calls DB server with RMI.
+* DB server gets name and town from tennis.mdb.
+* Data gets passed back through, and Name and Town fields are populated.
+* Exit button closes application.
+
+Task completed with
+```````````````````
+
+* Aaron
+* Edmund
+
+Notes
+`````
+
+http://docs.oracle.com/javase/tutorial/rmi/
+
+* Remote Objects get stored in the rmiregistry.
+* A remote object must extend UnicastRemoteObject, implement an interface that
+  extends Remote, and must have all its methods throwing RemoteException.
+* The interface extending remote must have all its methods throwing
+  RemoteException, and only the methods in the interface will be remotely
+  callable.
+* A server will store a remote object in the rmiregistry using Naming.rebind()
+* A client will find an object in the rmiregistry using Naming.lookup()
+* 2 remote objects exist in the program: PlayerApp and DBServer
+* lookup - returns a stub or reference for the remote object with the specified
+  name
+* rebind - rebinds the specified name to a new remote object
+
+Misc requirements
+'''''''''''''''''
+
+* tennis.mdb must be registered at: "jdbc:odbc:tennis_access".
+
+Running steps
+'''''''''''''
+
+::
+
+   javac *.java
+   rmic myRemoteObject
+   start rmiregistry
+   start java myRemoteServer
+   java myClient
+
+Design
+``````
+
+.. image:: images/group_portfolio_rmi.png
+
+Code
+````
+
+AppServer.java::
+
+  import java.rmi.*;
+
+  class AppServer {
+
+      public static void main(String[] args) {
+	  try {
+	      PlayerApp playerApp = new PlayerApp();
+	      Naming.rebind("PlayerApp", playerApp);
+	  }
+	  catch (Exception ex) {
+	      System.out.println(ex);
+	  }
+      }
+
+  }
+
+Client.java::
+
+  import java.rmi.*;
+  import java.awt.*;
+  import java.awt.event.*;
+  import javax.swing.*;
+
+  class Client extends JFrame
+  {
+      private JTextField txtPlayerNo;
+      private JTextField txtName;
+      private JTextField txtInitials;
+      private JTextField txtBirthDate;
+      private JTextField txtSex;
+      private JTextField txtJoined;
+      private JTextField txtStreet;
+      private JTextField txtHouseNo;
+      private JTextField txtPostCode;
+      private JTextField txtTown;
+      private JTextField txtPhoneNo;
+      private JTextField txtLeague;
+
+      public static void main(String[] args) {
+	  Client frame = new Client();
+      }
+
+      public Client() {
+	  setTitle("ClientGui");
+	  setBounds(100, 100, 248, 215);
+	  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	  JLabel lblPlayerNo = new JLabel("Player No");
+	  lblPlayerNo.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	  lblPlayerNo.setBounds(10, 18, 76, 14);
+	  JLabel lblName = new JLabel("Name");
+	  lblName.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	  lblName.setBounds(10, 55, 76, 14);
+	  JLabel lblTown = new JLabel("Town");
+	  lblTown.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	  lblTown.setBounds(10, 97, 76, 14);
+	  txtPlayerNo = new JTextField();
+	  txtPlayerNo.setBounds(96, 15, 126, 20);
+	  txtPlayerNo.setColumns(10);
+	  txtName = new JTextField();
+	  txtName.setBounds(96, 52, 126, 20);
+	  txtName.setColumns(10);
+	  txtTown = new JTextField();
+	  txtTown.setBounds(96, 94, 126, 20);
+	  txtTown.setColumns(10);
+	  JButton btnGet = new JButton("Get");
+	  btnGet.setFont(new Font("Tahoma", Font.PLAIN, 15));
+	  btnGet.setBounds(133, 140, 89, 23);
+	  btnGet.addActionListener(new ActionListener()
+	  {
+	      public void actionPerformed(ActionEvent arg0)
+	      {
+		  try
+		  {
+		      Remote remote = Naming.lookup("rmi://127.0.0.1/PlayerApp");
+		      PlayerAppIntf playerApp = (PlayerAppIntf) remote;
+		      int p = Integer.parseInt(txtPlayerNo.getText()); 
+		      Player player = playerApp.get(p);
+		      txtName.setText(player.getName());
+		      txtTown.setText(player.getTown());
+		  }
+		  catch (Exception ex)
+		  {
+		      System.out.println(ex);
+		  }
+	      }
+	  }
+	  );
+	  getContentPane().setLayout(null);
+	  getContentPane().add(lblPlayerNo);
+	  getContentPane().add(txtPlayerNo);
+	  getContentPane().add(lblName);
+	  getContentPane().add(txtName);
+	  getContentPane().add(lblTown);
+	  getContentPane().add(txtTown);
+	  getContentPane().add(btnGet);
+
+	  setVisible(true);
+      }
+  }
+
+DBServer.java::
+
+  import java.rmi.*;
+
+  class DBServer {
+
+      public static void main(String[] args) {
+	  try {
+	      PlayerDB playerDB = new PlayerDB();
+	      Naming.rebind("PlayerDB", playerDB);
+	  }
+	  catch (Exception ex) {
+	      System.out.println(ex);
+	  }
+      }
+
+  }
+
+Player.java::
+
+  import java.io.*;
+
+  class Player implements Serializable {
+      private int id;
+      private String name;
+      private String town;
+
+      public Player() { }
+
+      public Player(int id, String name, String town) {
+	  this.id = id;
+	  this.name = name;
+	  this.town = town;
+      }
+
+      public int getID() {
+	  return id;
+      }
+      public String getName() {
+	  return name;
+      }
+      public String getTown() {
+	  return town;
+      }
+  }
+
+PlayerApp.java::
+
+  import java.rmi.*;
+  import java.rmi.server.*;
+  import java.util.*;
+
+  class PlayerApp extends UnicastRemoteObject implements PlayerAppIntf {
+
+      public PlayerApp() throws RemoteException {
+	  super();
+      }
+
+      public Player get(int p) throws RemoteException {
+	  try {
+	      Remote remote = Naming.lookup("rmi://127.0.0.1/PlayerDB");
+	      PlayerDBIntf playerApp = (PlayerDBIntf) remote;
+	      Vector result = playerApp.query("select name, town from players where playerno=" + p);
+	      if (result.size() > 0) {
+		  Vector row = (Vector) result.elementAt(0);
+		  Player player = new Player(p, (String) row.elementAt(0), (String) row.elementAt(1));
+		  return player;
+	      }
+
+	  }
+	  catch (Exception ex) {
+	      System.out.println(ex);
+	  }
+	  return new Player();
+      }
+
+  }
+
+PlayerAppIntf.java::
+
+  import java.rmi.*;
+
+  interface PlayerAppIntf extends Remote {
+       public Player get(int p) throws RemoteException;
+  }
+
+PlayerDB.java::
+
+  import java.sql.*;
+  import java.rmi.*;
+  import java.rmi.server.*;
+  import java.util.Vector;
+
+  class PlayerDB extends UnicastRemoteObject implements PlayerDBIntf {
+
+      public PlayerDB() throws RemoteException {
+	  super();
+	  try {
+	      Class.forName("sun.jdbc.odbc.JdbcOdbcDriver");
+	  }
+	  catch (Exception e) {
+	      System.out.println(e);
+	  }
+      }
+
+      public Vector query(String query) throws RemoteException {
+	  try {
+	      Connection connection = DriverManager.getConnection("jdbc:odbc:tennis_access","","");
+	      Statement statement = connection.createStatement();
+	      ResultSet result = statement.executeQuery(query);
+
+	      Vector resultVector = new Vector();
+	      ResultSetMetaData rsmd = result.getMetaData();
+	      int columnCount = rsmd.getColumnCount();
+	      while (result.next()) {
+		  Vector row = new Vector();
+		  for (int i = 1; i <= columnCount; i++) {
+		      row.add(result.getString(i));
+		  }
+		  resultVector.add(row);
+	      }
+	      return resultVector;
+	  }
+	  catch (SQLException e) {
+	      System.out.println(e);
+	  }
+	  return null;
+      }
+
+  }
+
+PlayerDBIntf.java::
+
+  import java.rmi.*;
+  import java.util.Vector;
+
+  interface PlayerDBIntf extends Remote {
+      public Vector query(String query) throws RemoteException;
+  }
+
+Decoupling
+----------
+
+Advantages:
+
+* Neighbourhood.
+
+  * No data is global; everything is local.
+
+* Easy to maintain.
+* Safety.
+* Uniform distribution of intelligence among classes (no monolithic classes).
+* Avoid unwanted classes.
+* Some classes "fall out" along the way.
+
+Central Target of Association
+`````````````````````````````
+
+**CTA-1**: A class, where an object of the class is called from many other
+objects of the **same** type.
+
+* Use the adapted server pattern to decouple, so that the other objects do not
+    need to know the implementation details of the CTA-1 class.
+* In an example, we have many Button objects that all call methods on a
+    Dialer. To implement adapted server:
+
+  * Button MUST-HAVE a ButtonServer (abstract class), and will call
+    abstract +ButtonPressed() on it.
+  * For each method that needs to be called on dialer, we have an Adapter
+    class that inherits from ButtonServer, and will implemented
+    +ButtonPressed() to call the method in Dialer.
+  * This decouples the system so that we can add new types of button (servers)
+    that aggregate ButtonServer, and new types of Dialers (or anything that
+    can be called by a button; clients) that are used by a new kind of
+    Adapter.
+
+.. image:: images/adaptedServer.png
+
+::
+
+  class Button {
+
+      private ButtonServer buttonServer;
+
+      public Button(ButtonServer buttonServer) {
+	  this.buttonServer = buttonServer;
+      }
+
+      private void pressed() {
+	  buttonServer.buttonPressed();
+      }
+
+  }
+
+  abstract class ButtonServer {
+      public abstract void buttonPressed();
+  }
+
+  class SendButtonAdapter extends ButtonServer {
+
+      private Dialer dialer;
+
+      public SendButtonAdapter(Dialer dialer) {
+	  this.dialer = dialer;
+      }
+
+      public void buttonPressed() {
+	  dialer.send();
+      }
+  }
+
+  class DigitButtonAdapter extends ButtonServer {
+
+      private Dialer dialer;
+
+      public DigitButtonAdapter(Dialer dialer) {
+	  this.dialer = dialer;
+      }
+
+      public void buttonPressed() {
+	  dialer.digit();
+      }
+  }
+
+  class Dialer {
+
+      public Dialer() {
+	  new Button(new DigitButtonAdapter(this));
+	  new Button(new SendButtonAdapter(this));
+      }
+
+      public void send() { }
+
+      public void digit() { }
+
+  }	
+
+**CTA-2**: A class, where an object of the class is called from many other
+objects of **different** types.
+
+* Use interface segregation desin pattern to decouple, so that the other
+  objects do not need to know the implementation details of the CTA-2 class.
+* Each type of client should use a separate interface, and each interface
+  should be implemented by the CTA-2 class.
+* This way, the CTA-2 class could be replaced for a given client with
+  anything that implements the required interface.
+* E.g. Dialer and CellularRadio both call Display.
+
+  * We add (i)DialerDisplay, that is used by Dialer, and implemented by
+    Display.
+  * We add (i)CRDisplay, that is used by CellularRadio, and implemented by
+    Display.
+
+.. image:: images/interface_segregation.png
+
+::
+
+  class Dialer {
+
+      private DialerDisplay display;
+
+      public Dialer(DialerDisplay display) {
+	  this.display = display;
+	  display.displayDigit(5);
+      } 
+
+  }
+
+  class CellularRadio {
+
+      private CRDisplay display;
+
+      public CellularRadio(CRDisplay display) {
+	  this.display = display;
+	  display.inUse();
+      } 
+
+  }
+
+  interface DialerDisplay {
+      void displayDigit(int code);
+  }
+
+  interface CRDisplay {
+      void inUse();
+  }
+
+  class Display implements DialerDisplay, CRDisplay {
+
+      public void displayDigit(int code) { }
+      public void inUse() { }
+
+  }
+
+GoF Design Patterns
+===================
+
+Singleton
+---------
+
+The singleton pattern is useful when there only ever needs to be a single,
+global instance of a given class.
+
+In a singleton class, the constructor(s) are private, and the only way to get
+an instance is to call a static method of the class, which will only ever
+create a single object and serve it for every request.
+
+.. image:: images/singleton.png
+
+::
+
+  class Singleton {
+
+      private static Singleton instance;
+
+      private Singleton() {
+
+      }
+
+      // Any object wishing to get the Singleton object will need to call this.
+      public static Singleton getInstance() {
+	  if (instance == null) {
+	      instance = new Singleton();
+	  }
+	  return instance;
+      }
+
+  }
+
+Observer
+--------
+
+The observer pattern is useful when several objects (observer) need to be
+notified when a state change occurs for some single object (observable).
+
+In the observer pattern example below, an object wishing to be observed must
+inherit from the ``Observable`` class, and ``notifyObservers()`` must be called
+whenever a change in state occurs. Any object wishing to observe the first
+object must implement the ``Observer`` interface, and must be added to the first
+object's list of observers with ``addObserver()``. Then, whenever the first
+object has ``notifyObservers()`` invoked, the other objects will have their own
+``notifyObserver()`` invoked, in which they can react appropriately to the state
+change.
+
+The observer pattern is commonly used asd part of event-based programming, where
+objects need to notify other objects of the events that have occurred.
+
+.. image:: images/Observer.png
+
+::
+
+  import java.util.Vector;
+
+  interface Observer {
+      void notifyObserver();
+  }
+
+  abstract class Observable {
+
+      private Vector<Observer> observers;
+
+      public Observable() {
+	  observers = new Vector<Observer>();
+      }
+
+      public void addObserver(Observer o) {
+	  observers.add(o);
+      }
+
+      public void removeObserver(Observer o) {
+	  if (observers.contains(o)) {
+	      observers.remove(o);
+	  }
+      }
+
+      public void notifyObservers() {
+	  for (Observer o : observers) {
+	      o.notifyObserver();
+	  }
+      }
+
+  }
+
+  class ConcreteObservable extends Observable {
+
+  }
+
+  class ConcreteObserver implements Observer {
+
+      public void notifyObserver() {
+	  System.out.println("Observation successful!");
+      }
+
+  }
+
+  class Tester {
+
+      public static void main(String[] args) {
+	  Observable o1 = new ConcreteObservable();
+	  Observer o2 = new ConcreteObserver();
+	  o1.addObserver(o2);
+	  o1.notifyObservers();
+	  o1.removeObserver(o2);
+      }
+
+  }
+
+Memento
+-------
+
+The purpose of the memento pattern is for an object to be able to save its state
+to a "memento" object, and then restore its state from that memento at a later
+time.
+
+The memento pattern is useful for implementing the ability to "undo" the changes
+made to an object, such as for a GUI element.
+
+Three main classes are involved in the memento pattern are:
+
+``Originator``
+  Objects whose states need to be saveable and restorable.
+``Memento``
+  Objects that store the state of ``Originator`` objects.
+``Caretaker``
+  An object of ``Caretaker`` is responsible for storing the ``Memento`` objects.
+
+.. image:: images/memento.png
+
+::
+
+  import java.util.Vector;
+
+  class Originator {
+
+      private String state;
+
+      public String getState() {
+	  return state;
+      }
+      public void setState(String state) {
+	  this.state = state;
+      }
+
+      public Memento saveState() {
+	  return new Memento(state);
+      }
+      public void restoreState(Memento memento) {
+	  state = memento.getState();
+      }
+
+  }
+
+  class Memento {
+
+      private String state;
+
+      public Memento(String state) {
+	  this.state = state;
+      }
+
+      public String getState() {
+	  return state;
+      }
+
+  }
+
+  class Caretaker {
+
+      private Vector<Memento> mementos;
+
+      public Caretaker() {
+	  mementos = new Vector<Memento>();
+      }
+
+      public void addMemento(Memento memento) {
+	  mementos.add(memento);
+      }
+
+      public Memento getMemento(int index) {
+	  return mementos.get(index);
+      }
+
+  }
+
+  class Tester {
+
+      public static void main(String[] args) {
+	  Originator o = new Originator();
+	  Caretaker c = new Caretaker();
+
+	  o.setState("A");
+	  c.addMemento(o.saveState());
+	  o.setState("B");
+	  o.restoreState(c.getMemento(0));
+	  System.out.println(o.getState());
+      }
+
+  }
