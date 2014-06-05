@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="12.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>140</x>
+      <y>200</y>
+      <w>190</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>Singleton
+--
+-(c)instance:Singleton
+--
+-()
++(c)getInstance():Singleton</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
