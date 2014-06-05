@@ -99,7 +99,7 @@ First program
     * The variable ``emp`` can now be used to reference the ``Employee`` object.
 
 Question answers:
-----------
+-----------------
 
 1) Java is cross-platform, and strongly typed, which is useful for certain
    applications.
@@ -370,7 +370,7 @@ Note how we pass arguments to the constructor when initializing an object with
 ``new`` (see ``Tester.main()``).
 
 If we have a constructor in a child class that does not call the a parent
-constructor with ``super``, a call to ``super()`` seems to be implied. 
+constructor with ``super``, a call to ``super()`` seems to be implied.
 
 Method arguments and return values
 ----------------------------------
@@ -635,7 +635,6 @@ HOMEWORK: CREATE UML FROM THE ABOVE CODE:
 
 Don't classify a class (e.g. ``+String type``), use subtyping.
 
-
 ::
 
   Object a = null;
@@ -765,7 +764,7 @@ parent class (normal or abstract) or interface ojbect references::
 	      //Person p = v.elementAt(i);
 
 	      p.prt();
-	  } 
+	  }
       }
 
   }
@@ -1572,8 +1571,9 @@ An inner class declared at the method level is not included in a UML diagram.
 
 * A private inner class can only be used within the class.
 * A public inner class can be used for object references outside of the class
-  (with Outer.Inner), but not created outside of the class (An instance is
-  needed for creation).
+  (with Outer.Inner), and can be created outside of the class (An instance is
+  needed for creation). It can also access all instance methods of its outer
+  class, even those declared as private.
 * A public static inner class can be created and stored outside of the class.
 * A class declared within a method can only be accessed within that method, and
   only in the lines following the declaration of the inner class.
@@ -1593,7 +1593,7 @@ Example::
       }
 
       // Public Instance-level inner class.
-      // Can't create an instance outside of the class.
+      // Can create an instance outside of the class.
       class Car {
 
 	  public void m6() {
@@ -1654,6 +1654,8 @@ Example::
 	  e1.m7();
 	  Employee.Car c1 = e1.m4();
 	  c1.m6();
+	  Employee.Car c2 = e1.new Car();
+	  c2.m6();
 	  Employee.Food f1 = new Employee.Food();
 	  f1.m5();
       }
@@ -1799,7 +1801,7 @@ through the db connection, and returns an object implementing the ResultSet
 interface.
 
 The result set can be navigated and accessed with methods such as ``next()`` and
-``getString()``. 
+``getString()``.
 
 Example of querying and displaying data in UI::
 
@@ -1915,76 +1917,6 @@ Example of querying and displaying data in UI::
       }
 
   }
-
-Factory Method Design Patterns
-------------------------------
-
-Factory Method with Private Constructor
-```````````````````````````````````````
-
-Class contains a private constructor so a new object cannot be created from
-outside the class.
-
-A static method will be provided in the class that will create and return a new
-object.
-
-This is used when initialization of the object is:
-
-* Not safe for just anyone to create an object.
-* Involves steps/variables the programmer doesn't need to worry about.
-* Factory method reads from some XML configuration file.
-
-.. image:: images/factory_method.png
-
-::
-
-  class Foo {
-
-    private Foo() { }
-
-    public static Foo createFoo() {
-      return new Foo();
-    }
-
-  }
-
-Factory method with inner class
-```````````````````````````````
-
-Similar result from making the class an inner class, and by making the outer
-class include a factory method.
-
-::
-
-   interface FooIntf {
-
-   }
-
-   class Bar {
-
-     private class Foo implements FooIntf {
-
-     }
-
-     public Foo createFoo() {
-       return new Foo();
-     }
-
-   }
-
-   class Tester {
-     public static void main(String[] args) {
-       Bar b = new Bar();
-       FooIntf = b.createFoo();
-     }
-   }
-
-API Design Pattern
-``````````````````
-
-A library defines and uses an interface that must be implemented by the client.
-
-.. image:: images/api_design_pattern.png
 
 RMI
 ---
@@ -2125,7 +2057,7 @@ Client.java::
 		  {
 		      Remote remote = Naming.lookup("rmi://127.0.0.1/PlayerApp");
 		      PlayerAppIntf playerApp = (PlayerAppIntf) remote;
-		      int p = Integer.parseInt(txtPlayerNo.getText()); 
+		      int p = Integer.parseInt(txtPlayerNo.getText());
 		      Player player = playerApp.get(p);
 		      txtName.setText(player.getName());
 		      txtTown.setText(player.getTown());
@@ -2290,8 +2222,81 @@ PlayerDBIntf.java::
       public Vector query(String query) throws RemoteException;
   }
 
-Decoupling
-----------
+
+Design Patterns
+------------------------------
+
+Factory Method with Private Constructor
+```````````````````````````````````````
+
+Class contains a private constructor so a new object cannot be created from
+outside the class.
+
+A static method will be provided in the class that will create and return a new
+object.
+
+This is used when initialization of the object is:
+
+* Not safe for just anyone to create an object.
+* Involves steps/variables the programmer doesn't need to worry about.
+* Factory method reads from some XML configuration file.
+
+.. image:: images/factory_method.png
+
+::
+
+  class Foo {
+
+    private Foo() { }
+
+    public static Foo createFoo() {
+      return new Foo();
+    }
+
+  }
+
+Factory method with inner class
+```````````````````````````````
+
+.. image:: images/factory_method_inner_class.png
+
+Similar result from making the class an inner class, and by making the outer
+class include a factory method.
+
+::
+
+   interface FooIntf {
+
+   }
+
+   class Bar {
+
+     private class Foo implements FooIntf {
+
+     }
+
+     public Foo createFoo() {
+       return new Foo();
+     }
+
+   }
+
+   class Tester {
+     public static void main(String[] args) {
+       Bar b = new Bar();
+       FooIntf = b.createFoo();
+     }
+   }
+
+API Design Pattern
+``````````````````
+
+A library defines and uses an interface that must be implemented by the client.
+
+.. image:: images/api_design_pattern.png
+
+Decoupling Design Patterns
+--------------------------
 
 Advantages:
 
@@ -2316,6 +2321,8 @@ Advantages:
 Static models (class diagrams) are good, but dynamic models (collaboration
 diagrams) are needed to view interactions, and determine monolithic classes
 that take the intelligence.
+
+
 
 Central Target of Association
 `````````````````````````````
@@ -2397,7 +2404,7 @@ objects of the **same** type.
 
       public void digit() { }
 
-  }	
+  }
 
 **CTA-2**: A class, where an object of the class is called from many other
 objects of **different** types.
@@ -2426,7 +2433,7 @@ objects of **different** types.
       public Dialer(DialerDisplay display) {
 	  this.display = display;
 	  display.displayDigit(5);
-      } 
+      }
 
   }
 
@@ -2437,7 +2444,7 @@ objects of **different** types.
       public CellularRadio(CRDisplay display) {
 	  this.display = display;
 	  display.inUse();
-      } 
+      }
 
   }
 
