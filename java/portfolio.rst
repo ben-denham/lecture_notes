@@ -1916,8 +1916,11 @@ Example of querying and displaying data in UI::
 
   }
 
-Factory Method Design Pattern
------------------------------
+Factory Method Design Patterns
+------------------------------
+
+Factory Method with Private Constructor
+```````````````````````````````````````
 
 Class contains a private constructor so a new object cannot be created from
 outside the class.
@@ -1925,7 +1928,11 @@ outside the class.
 A static method will be provided in the class that will create and return a new
 object.
 
-This is used when initialization of the object is difficult.
+This is used when initialization of the object is:
+
+* Not safe for just anyone to create an object.
+* Involves steps/variables the programmer doesn't need to worry about.
+* Factory method reads from some XML configuration file.
 
 .. image:: images/factory_method.png
 
@@ -1940,6 +1947,44 @@ This is used when initialization of the object is difficult.
     }
 
   }
+
+Factory method with inner class
+```````````````````````````````
+
+Similar result from making the class an inner class, and by making the outer
+class include a factory method.
+
+::
+
+   interface FooIntf {
+
+   }
+
+   class Bar {
+
+     private class Foo implements FooIntf {
+
+     }
+
+     public Foo createFoo() {
+       return new Foo();
+     }
+
+   }
+
+   class Tester {
+     public static void main(String[] args) {
+       Bar b = new Bar();
+       FooIntf = b.createFoo();
+     }
+   }
+
+API Design Pattern
+``````````````````
+
+A library defines and uses an interface that must be implemented by the client.
+
+.. image:: images/api_design_pattern.png
 
 RMI
 ---
@@ -2257,8 +2302,20 @@ Advantages:
 * Easy to maintain.
 * Safety.
 * Uniform distribution of intelligence among classes (no monolithic classes).
+
+  * Modifying monolithic classes are dangerous, because a change in that class
+    could cause more problems in more areas.
+
 * Avoid unwanted classes.
 * Some classes "fall out" along the way.
+* You will be able to swap out classes more easily, because we program to
+  interfaces, not implementations.
+
+  * Classes don't need to know implementation details of the classes they use.
+
+Static models (class diagrams) are good, but dynamic models (collaboration
+diagrams) are needed to view interactions, and determine monolithic classes
+that take the intelligence.
 
 Central Target of Association
 `````````````````````````````
